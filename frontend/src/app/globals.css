@@ -1,0 +1,139 @@
+@import "tailwindcss";
+@import "maplibre-gl/dist/maplibre-gl.css";
+
+/* UploadThing components — Tailwind v4 integration (generates ut-* variants
+   without shipping UploadThing's own conflicting utility reset). */
+@import "uploadthing/tw/v4";
+@source "../../node_modules/@uploadthing/react/dist/**";
+
+/* Runtime-customizable palette (§9.2) — updated live by ThemeProvider
+   from the theme_settings collection via GET /theme. Components must use
+   the semantic Tailwind tokens below, never hardcoded hex values. */
+:root {
+  --lc-primary: #111827; /* Midnight Blue */
+  --lc-secondary: #b45309; /* Copper */
+  --lc-accent: #f5e6c8; /* Light Sand */
+  --lc-background: #ffffff;
+  --lc-text: #374151; /* Slate */
+}
+
+@theme inline {
+  --color-primary: var(--lc-primary);
+  --color-secondary: var(--lc-secondary);
+  --color-accent: var(--lc-accent);
+  --color-background: var(--lc-background);
+  --color-text: var(--lc-text);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--lc-background);
+  color: var(--lc-text);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* ------------------------------------------------------------------ */
+/* Motion & polish                                                      */
+/* ------------------------------------------------------------------ */
+
+@keyframes lc-kenburns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.12) translate(1.5%, -1.5%);
+  }
+}
+
+@keyframes lc-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes lc-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes lc-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes lc-ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-kenburns {
+  animation: lc-kenburns 9s ease-out forwards;
+}
+
+.animate-fade-up {
+  animation: lc-fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade-in {
+  animation: lc-fade-in 1s ease both;
+}
+
+.animate-float {
+  animation: lc-float 5s ease-in-out infinite;
+}
+
+/* Scroll-reveal (driven by the Reveal component) */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .animate-kenburns,
+  .animate-fade-up,
+  .animate-fade-in,
+  .animate-float {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Thin scrollbars for list panes */
+.nice-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.nice-scroll::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--lc-text) 20%, transparent);
+  border-radius: 3px;
+}

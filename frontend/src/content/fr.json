@@ -1,0 +1,468 @@
+{
+  "common": {
+    "appName": "LandChain",
+    "loading": "Chargement…",
+    "error": "Une erreur est survenue. Veuillez réessayer.",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "submit": "Soumettre",
+    "search": "Rechercher",
+    "back": "Retour",
+    "next": "Suivant",
+    "login": "Connexion",
+    "signup": "Commencer",
+    "logout": "Déconnexion",
+    "dashboard": "Tableau de bord",
+    "admin": "Admin",
+    "language": "Langue",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "name": "Nom complet",
+    "phone": "Numéro de téléphone",
+    "xaf": "XAF",
+    "status": {
+      "active": "Enregistrée",
+      "disputed": "En litige",
+      "flagged": "Signalée",
+      "not_found": "Introuvable",
+      "pending": "En attente",
+      "verified": "Vérifiée",
+      "rejected": "Rejetée",
+      "expired": "Expirée",
+      "none": "Aucun"
+    }
+  },
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "team": "Équipe",
+    "howItWorks": "Comment ça marche",
+    "pricing": "Tarifs",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "verify": "Vérifier une parcelle",
+    "marketplace": "Marché",
+    "map": "Carte"
+  },
+  "footer": {
+    "tagline": "Mettre fin à la fraude foncière au Cameroun grâce à la blockchain et l'IA.",
+    "product": "Produit",
+    "company": "Entreprise",
+    "legal": "Mentions légales",
+    "terms": "Conditions d'utilisation",
+    "privacy": "Politique de confidentialité",
+    "disclaimer": "LandChain est une couche de vérification et d'intégrité des registres. Elle ne remplace ni le registre foncier officiel de l'État ni votre titre foncier légal.",
+    "rights": "Tous droits réservés.",
+    "madeIn": "Fièrement conçu au Cameroun 🇨🇲"
+  },
+  "home": {
+    "hero": {
+      "badge": "Vérification foncière blockchain + IA pour le Cameroun",
+      "titleLine1": "Achetez un terrain en toute confiance.",
+      "titleAccent": "Vérifiez avant de payer.",
+      "subtitle": "Chaque année, des milliers de Camerounais perdent les économies d'une vie à cause de titres falsifiés, de doubles ventes et de fraudes à l'identité. LandChain rend chaque registre foncier infalsifiable — et vérifiable en quelques secondes.",
+      "ctaPrimary": "Vérifier une parcelle",
+      "ctaSecondary": "Explorer le marché",
+      "scroll": "Faites défiler pour découvrir",
+      "stats": [
+        { "value": "60–85 %", "label": "des affaires civiles au Cameroun sont des litiges fonciers" },
+        { "value": "<10 s", "label": "pour vérifier le statut et l'historique complet d'une parcelle" },
+        { "value": "100 %", "label": "des enregistrements ancrés sur la blockchain Polygon" },
+        { "value": "24/7", "label": "vérification publique, depuis n'importe quel appareil" }
+      ]
+    },
+    "trustStrip": [
+      "Registre Polygon immuable",
+      "Détection de faux et deepfakes par IA",
+      "KYC vérifié par des humains",
+      "Paiements MTN & Orange Money",
+      "Bilingue FR / EN",
+      "Co-signature notariale"
+    ],
+    "problem": {
+      "kicker": "Le problème",
+      "title": "La fraude foncière vole les économies d'une vie",
+      "subtitle": "C'est la première cause de litiges au Cameroun — et l'IA générative rend la falsification dramatiquement plus facile chaque année.",
+      "stat1": "60–85 %",
+      "stat1Label": "des affaires civiles sont des litiges fonciers",
+      "stat2": "Des années",
+      "stat2Label": "passées au tribunal pour un terrain déjà payé",
+      "stat3": "Millions XAF",
+      "stat3Label": "couramment perdus par affaire de fraude — souvent les économies d'une vie",
+      "items": [
+        { "title": "Ventes doubles et triples", "text": "La même parcelle vendue à plusieurs acheteurs, fréquent dans les marchés urbains comme Douala et Yaoundé." },
+        { "title": "Titres falsifiés", "text": "Terrains enregistrés avec des documents administratifs falsifiés et de faux cachets." },
+        { "title": "Registres altérés", "text": "Registres de propriété modifiés après coup, sans autorisation." },
+        { "title": "Usurpation d'identité", "text": "Transferts exécutés avec des identités volées ou truquées par deepfake." }
+      ],
+      "aiWarning": "L'IA générative peut désormais produire en quelques secondes des certificats falsifiés quasi parfaits, des signatures synthétiques et des pièces d'identité deepfake. La vérification manuelle sur papier ne peut plus suivre — l'écart se creuse chaque année."
+    },
+    "solution": {
+      "kicker": "La solution",
+      "title": "Une source unique de vérité pour chaque parcelle",
+      "subtitle": "LandChain associe un registre de propriété immuable à l'authentification des documents par IA : la fraude est détectée en quelques secondes — pas découverte des années plus tard au tribunal.",
+      "items": [
+        { "title": "Registre de propriété immuable", "text": "Chaque transaction enregistrée de façon permanente sur Polygon — rien ne peut être modifié ou supprimé discrètement." },
+        { "title": "Vérification instantanée", "text": "La vérification de propriété passe de plusieurs semaines à quelques secondes." },
+        { "title": "Détection des doubles ventes", "text": "Une parcelle déjà enregistrée ou vendue ne peut être ré-enregistrée sans alerte." },
+        { "title": "Authentification des documents par IA", "text": "Détecte les documents falsifiés, manipulés ou générés par IA avec une grande précision." },
+        { "title": "Traçabilité complète", "text": "Chaque changement de propriétaire traçable depuis l'origine de la parcelle jusqu'à aujourd'hui." },
+        { "title": "Contrôle humain systématique", "text": "Aucun verdict de l'IA ne rejette seul un document — des examinateurs formés prennent chaque décision finale." }
+      ]
+    },
+    "howItWorks": {
+      "kicker": "Comment ça marche",
+      "title": "De l'enregistrement au transfert sécurisé",
+      "subtitle": "Quatre étapes, conçues pour que chacun puisse protéger son terrain — aucune connaissance blockchain requise.",
+      "steps": [
+        { "title": "Enregistrer", "text": "Complétez le KYC, localisez votre parcelle sur la carte et téléversez vos documents." },
+        { "title": "Vérifier", "text": "L'IA contrôle l'authenticité des documents ; les registres sont ancrés sur la blockchain." },
+        { "title": "Suivre", "text": "Suivez chaque transaction sur votre parcelle avec un historique complet." },
+        { "title": "Transiger", "text": "Transférez la propriété en toute sécurité, avec co-signature notariale optionnelle." }
+      ]
+    },
+    "tech": {
+      "kicker": "Une technologie de confiance",
+      "title": "Une technologie sérieuse, expliquée simplement",
+      "items": [
+        { "title": "Un cahier que personne ne peut modifier en secret", "text": "Quand votre parcelle est enregistrée, une empreinte cryptographique est inscrite pour toujours sur la blockchain Polygon. Toute falsification devient instantanément visible de tous." },
+        { "title": "Une IA qui lit les documents comme un expert", "text": "Cachets, polices, signatures et traces invisibles des faux générés par IA — analysés en quelques secondes, examinés par des humains avant toute décision." },
+        { "title": "Votre vie privée, protégée dès la conception", "text": "Vos données personnelles et documents ne touchent jamais la blockchain. Seules des empreintes anonymes y sont inscrites — votre identité reste hors chaîne." }
+      ]
+    },
+    "marketplacePreview": {
+      "kicker": "Le marché",
+      "title": "Des terrains vérifiés, prêts à l'achat",
+      "subtitle": "Chaque parcelle listée a passé la vérification LandChain et n'est pas en litige — ce que vous voyez est ce que vous obtenez réellement.",
+      "cta": "Parcourir le marché",
+      "sampleBadge": "Exemple",
+      "verifiedBadge": "Vérifié LandChain"
+    },
+    "waitlist": {
+      "title": "Soyez les premiers informés de notre lancement",
+      "subtitle": "Rejoignez la liste d'attente et obtenez un accès anticipé à LandChain.",
+      "placeholder": "Votre adresse e-mail",
+      "button": "Rejoindre la liste",
+      "success": "Vous êtes inscrit — vérifiez votre boîte mail !"
+    },
+    "finalCta": {
+      "title": "Ne rachetez plus jamais un terrain en litige.",
+      "subtitle": "Effectuez votre première vérification gratuitement — sans compte.",
+      "primary": "Vérifier une parcelle",
+      "secondary": "Voir les tarifs"
+    }
+  },
+  "about": {
+    "title": "À propos de LandChain",
+    "mission": "Notre mission",
+    "missionText": "Rendre la fraude foncière impossible à dissimuler. Nous associons un registre de propriété immuable à l'authentification des documents par IA, afin que les titres falsifiés, les doubles ventes et l'usurpation d'identité soient détectés en quelques secondes — et non découverts des années plus tard au tribunal.",
+    "whyNow": "Pourquoi maintenant",
+    "whyNowText": "L'IA générative peut produire en quelques secondes des certificats fonciers falsifiés quasi parfaits, des signatures synthétiques et des pièces d'identité deepfake. L'écart entre la capacité de fraude et la capacité de détection se creuse chaque année. Le Cameroun a besoin d'une couche de vérification fiable aujourd'hui, pas dans cinq ans.",
+    "story": "Notre histoire",
+    "storyText": "LandChain est né après avoir vu des familles perdre les économies d'une vie pour des terrains légalement achetés — des terrains vendus deux fois ou enregistrés avec de faux papiers. Nous croyons que chaque acheteur mérite de vérifier l'authenticité d'un titre avant que l'argent ne change de mains.",
+    "legalNote": "LandChain est une couche de vérification et d'intégrité des registres. Elle ne remplace pas légalement le registre foncier officiel de l'État — c'est la vérification de confiance à effectuer avant toute transaction."
+  },
+  "team": {
+    "kicker": "Les visages derrière LandChain",
+    "title": "Trois bâtisseurs en mission",
+    "subtitle": "Produit, ingénierie et expertise juridique — unis contre la fraude foncière au Cameroun.",
+    "joinTitle": "Envie de rejoindre le combat ?",
+    "joinText": "Nous recherchons toujours des ingénieurs, des juristes et des experts de l'administration foncière qui croient aux droits de propriété.",
+    "joinCta": "Contactez-nous",
+    "members": [
+      {
+        "name": "Nom du fondateur",
+        "role": "Co-fondateur & PDG",
+        "bio": "Produit et stratégie. Passionné par les droits de propriété, l'inclusion financière et les technologies qui protègent les économies des familles.",
+        "focus": "Produit · Stratégie · Partenariats"
+      },
+      {
+        "name": "Nom du co-fondateur",
+        "role": "Co-fondateur & CTO",
+        "bio": "Ingénieur systèmes blockchain et IA. A précédemment construit des infrastructures fintech en Afrique de l'Ouest et centrale.",
+        "focus": "Blockchain · IA · Infrastructure"
+      },
+      {
+        "name": "Nom du co-fondateur",
+        "role": "Co-fondateur & Directeur juridique",
+        "bio": "Spécialiste du droit foncier avec dix ans d'expérience dans les litiges immobiliers camerounais — il sait exactement comment la fraude opère, et comment l'arrêter.",
+        "focus": "Droit foncier · Conformité · Litiges"
+      }
+    ]
+  },
+  "howItWorksPage": {
+    "title": "Comment fonctionne LandChain",
+    "subtitle": "De l'enregistrement au transfert sécurisé, en quatre étapes.",
+    "tech": {
+      "title": "La technologie, en termes simples",
+      "blockchain": "Imaginez la blockchain comme un cahier public que personne ne peut modifier en secret. Quand votre parcelle est enregistrée, une empreinte du dossier y est inscrite pour toujours. Si quelqu'un altère le dossier plus tard, l'empreinte ne correspond plus — et tout le monde peut le voir.",
+      "ai": "Notre IA examine les documents comme le ferait un expert : cachets, polices, signatures et traces invisibles laissées par les faux générés par IA. Tout élément suspect est transmis à un examinateur humain : aucune machine ne rejette jamais vos documents seule.",
+      "privacy": "Vos données personnelles et documents ne vont jamais sur la blockchain. Seules des empreintes anonymes (hachages) y sont stockées."
+    }
+  },
+  "pricing": {
+    "title": "Des tarifs simples et transparents",
+    "subtitle": "Recherches de base gratuites pour tous. La vérification complète et les annonces sont payantes.",
+    "free": {
+      "title": "Gratuit",
+      "price": "0",
+      "features": ["Statut de base d'une parcelle", "Enregistrée / en litige / introuvable", "Parcourir le marché"],
+      "cta": "Essayer gratuitement"
+    },
+    "plans": {
+      "monthly": { "title": "Mensuel", "period": "/ mois" },
+      "quarterly": { "title": "Trimestriel", "period": "/ 3 mois", "badge": "-17 %" },
+      "annual": { "title": "Annuel", "period": "/ an", "badge": "-25 %" }
+    },
+    "subscriptionFeatures": ["Historique complet de propriété", "Résultats d'authenticité des documents", "Rapports de chaîne de traçabilité", "Vérifications complètes illimitées"],
+    "subscribe": "S'abonner",
+    "manualRenewal": "Les abonnements se renouvellent manuellement — nous vous le rappellerons par e-mail avant l'expiration. Aucun prélèvement automatique.",
+    "listing": {
+      "title": "Annonce sur le marché",
+      "text": "Publiez votre parcelle vérifiée à la vente pendant {days} jours",
+      "cta": "Publier une parcelle"
+    },
+    "payment": "Paiements via MTN Mobile Money et Orange Money, traités en toute sécurité par Fapshi."
+  },
+  "faq": {
+    "title": "Questions fréquentes",
+    "items": [
+      { "q": "Est-ce légal ?", "a": "Oui. LandChain est une plateforme de vérification et d'intégrité des registres. Nous enregistrons et vérifions des preuves relatives aux documents et transactions foncières. Nous opérons aux côtés de — et non à la place de — l'administration foncière officielle." },
+      { "q": "Cela remplace-t-il mon titre foncier officiel ?", "a": "Non. Un enregistrement LandChain constitue une preuve de vérification solide, pas un substitut légal au titre foncier officiel de l'État. Considérez LandChain comme la vérification de confiance à effectuer avant toute transaction." },
+      { "q": "Qu'advient-il de mes données ?", "a": "Vos données personnelles et documents sont stockés en toute sécurité hors chaîne avec un contrôle d'accès strict. Seules des empreintes cryptographiques anonymes (hachages) sont stockées sur la blockchain — jamais votre identité ni vos documents." },
+      { "q": "Comment mon paiement est-il traité ?", "a": "Les paiements sont traités par Fapshi, une passerelle de paiement camerounaise prenant en charge MTN Mobile Money et Orange Money. LandChain ne voit ni ne stocke jamais vos identifiants mobile money." },
+      { "q": "Comment fonctionne la vérification par IA ?", "a": "Notre IA contrôle les métadonnées, cachets, polices, signatures et les traces de falsification générée par IA. Tout résultat suspect est examiné par un humain avant toute action — l'IA ne rejette jamais un document seule." },
+      { "q": "Les abonnements se renouvellent-ils automatiquement ?", "a": "Non. Fapshi ne prend pas en charge les prélèvements récurrents automatiques, le renouvellement est donc manuel. Nous vous envoyons un e-mail 7 jours et 1 jour avant l'expiration." },
+      { "q": "Puis-je mettre n'importe quel terrain en vente ?", "a": "Seules les parcelles enregistrées sur LandChain, vérifiées et non contestées peuvent être publiées sur le marché. C'est un gage de confiance : les acheteurs savent que chaque annonce a passé la vérification." }
+    ]
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "subtitle": "Questions, partenariats ou presse — nous serions ravis de vous lire.",
+    "message": "Votre message",
+    "send": "Envoyer le message",
+    "success": "Message envoyé — nous vous répondrons bientôt."
+  },
+  "verify": {
+    "title": "Vérifier une parcelle",
+    "subtitle": "Saisissez une référence de parcelle pour vérifier son statut. Les recherches gratuites affichent uniquement le statut de base.",
+    "placeholder": "ex. LT-2024-DLA-00123",
+    "button": "Vérifier la parcelle",
+    "notFound": "Aucune parcelle avec cette référence n'est enregistrée sur LandChain.",
+    "foundRegistered": "Cette parcelle est enregistrée sur LandChain.",
+    "foundDisputed": "Attention : cette parcelle fait actuellement l'objet d'un litige.",
+    "foundFlagged": "Attention : cette parcelle a été signalée par notre équipe.",
+    "region": "Région",
+    "registeredIn": "Enregistrée en",
+    "upgradeTitle": "Vous voulez le tableau complet ?",
+    "upgradeText": "L'historique complet de propriété, les résultats d'authenticité des documents et les rapports de traçabilité nécessitent un abonnement.",
+    "upgradeCta": "Voir les offres"
+  },
+  "marketplace": {
+    "title": "Terrains à vendre",
+    "subtitle": "Chaque annonce a passé la vérification LandChain et n'est pas en litige.",
+    "empty": "Aucune annonce active pour le moment. Revenez bientôt.",
+    "price": "Prix demandé",
+    "area": "Superficie",
+    "listedUntil": "Publiée jusqu'au",
+    "viewOnMap": "Voir sur la carte",
+    "inquire": "Connectez-vous pour contacter"
+  },
+  "auth": {
+    "loginTitle": "Bon retour",
+    "loginSubtitle": "Connectez-vous à votre compte LandChain",
+    "signupTitle": "Créez votre compte",
+    "signupSubtitle": "Commencez à vérifier et protéger les registres fonciers",
+    "forgotPassword": "Mot de passe oublié ?",
+    "forgotTitle": "Réinitialisez votre mot de passe",
+    "forgotSubtitle": "Nous vous enverrons un lien de réinitialisation.",
+    "resetTitle": "Choisissez un nouveau mot de passe",
+    "newPassword": "Nouveau mot de passe",
+    "sendResetLink": "Envoyer le lien",
+    "resetPassword": "Réinitialiser",
+    "noAccount": "Pas encore de compte ?",
+    "haveAccount": "Vous avez déjà un compte ?",
+    "verifyEmailTitle": "Vérifiez votre e-mail",
+    "verifyEmailChecking": "Vérification de votre e-mail…",
+    "verifyEmailSuccess": "E-mail vérifié ! Vous pouvez maintenant vous connecter.",
+    "verifyEmailError": "Ce lien de vérification est invalide ou a expiré.",
+    "checkInbox": "Compte créé — consultez votre boîte mail pour vérifier votre e-mail.",
+    "passwordHint": "Au moins 8 caractères"
+  },
+  "kyc": {
+    "title": "Vérification d'identité (KYC)",
+    "subtitle": "Requise avant d'enregistrer ou de transférer un terrain. Examinée par notre équipe sous 48 heures.",
+    "idFront": "Carte d'identité — recto",
+    "idBack": "Carte d'identité — verso (optionnel)",
+    "selfie": "Selfie en direct",
+    "urlHint": "Collez l'URL du fichier après téléversement",
+    "submit": "Soumettre pour examen",
+    "statusTitle": "Statut KYC",
+    "not_started": "Non commencé",
+    "pending": "En cours d'examen",
+    "verified": "Vérifié",
+    "rejected": "Rejeté — vous pouvez soumettre à nouveau",
+    "submitted": "Soumis ! Notre équipe examinera vos documents sous peu."
+  },
+  "upload": {
+    "uploaded": "Téléversé",
+    "replace": "Remplacer le fichier",
+    "orUrl": "Ou collez l'URL d'un fichier",
+    "urlPlaceholder": "https://…",
+    "useUrl": "Utiliser cette URL",
+    "devHint": "Les téléversements utilisent UploadThing. Si les téléversements ne sont pas encore configurés, collez une URL ci-dessous."
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcome": "Bon retour, {name}",
+    "myParcels": "Mes parcelles",
+    "subscription": "Abonnement",
+    "recentActivity": "Paiements récents",
+    "noParcels": "Vous n'avez encore enregistré aucune parcelle.",
+    "registerParcel": "Enregistrer une parcelle",
+    "kycRequired": "Complétez la vérification KYC pour enregistrer des parcelles.",
+    "completeKyc": "Compléter le KYC",
+    "subActive": "Actif jusqu'au {date}",
+    "subNone": "Aucun abonnement actif",
+    "subExpired": "Abonnement expiré",
+    "viewPlans": "Voir les offres",
+    "nav": {
+      "overview": "Vue d'ensemble",
+      "parcels": "Mes parcelles",
+      "newParcel": "Enregistrer",
+      "subscription": "Abonnement",
+      "disputes": "Litiges",
+      "map": "Carte",
+      "kyc": "KYC"
+    }
+  },
+  "parcels": {
+    "newTitle": "Enregistrer une nouvelle parcelle",
+    "newSubtitle": "Localisez la parcelle, indiquez la référence et téléversez les documents justificatifs.",
+    "reference": "Référence de la parcelle",
+    "referenceHint": "Le numéro officiel du titre/de la parcelle, ex. LT-2024-DLA-00123",
+    "region": "Région",
+    "area": "Superficie (m²)",
+    "location": "Emplacement",
+    "mapHint": "Cliquez sur la carte pour placer un repère sur votre parcelle.",
+    "documents": "Documents justificatifs",
+    "documentUrl": "URL du document",
+    "docType": "Type de document",
+    "docTypes": { "land_title": "Titre foncier", "survey_plan": "Plan de bornage", "sale_agreement": "Acte de vente", "tax_receipt": "Quittance fiscale", "other": "Autre" },
+    "addDocument": "Ajouter un document",
+    "register": "Enregistrer la parcelle",
+    "duplicateError": "Cette parcelle semble déjà enregistrée :",
+    "registered": "Parcelle enregistrée avec succès !",
+    "detail": {
+      "history": "Historique des transactions",
+      "documents": "Documents",
+      "blockchain": "Ancrage blockchain",
+      "anchored": "Ancrée sur la chaîne",
+      "pendingAnchor": "Ancrage en attente",
+      "recordHash": "Empreinte du dossier",
+      "listForSale": "Mettre en vente",
+      "askingPrice": "Prix demandé (XAF)",
+      "listCta": "Payer les frais et publier",
+      "listedActive": "Publiée sur le marché jusqu'au {date}",
+      "transfer": "Transférer la propriété",
+      "recipientEmail": "E-mail LandChain du destinataire",
+      "notaryEmail": "E-mail du notaire (optionnel)",
+      "transferCta": "Initier le transfert",
+      "raiseDispute": "Signaler un litige",
+      "fullReport": "Rapport de vérification complet"
+    }
+  },
+  "verification": {
+    "title": "Rapport de vérification",
+    "verdict": "Verdict",
+    "verified": "Vérifiée — aucun problème détecté",
+    "disputed": "En litige — litige actif sur cette parcelle",
+    "flagged": "Signalée — en cours d'examen par LandChain",
+    "owner": "Propriétaire actuel",
+    "kycVerified": "KYC vérifié",
+    "openDisputes": "Litiges ouverts",
+    "documents": "Authenticité des documents",
+    "history": "Chaîne de traçabilité",
+    "generated": "Rapport généré",
+    "needSub": "Un abonnement actif est requis pour les rapports de vérification complets."
+  },
+  "subscription": {
+    "title": "Abonnement",
+    "current": "Offre actuelle",
+    "history": "Historique des paiements",
+    "renew": "Renouveler / changer d'offre",
+    "payNow": "Payer par Mobile Money",
+    "pending": "Paiement en attente — finalisez-le sur la page Fapshi.",
+    "checkStatus": "Vérifier le statut du paiement",
+    "manualNote": "Renouvellement manuel. Nous vous préviendrons par e-mail avant l'expiration."
+  },
+  "disputes": {
+    "title": "Litiges",
+    "raise": "Signaler un litige",
+    "parcelRef": "ID de la parcelle",
+    "description": "Décrivez le problème",
+    "submit": "Soumettre le litige",
+    "empty": "Vous n'avez aucun litige.",
+    "raised": "Litige soumis. La parcelle est maintenant marquée en litige en attendant l'examen."
+  },
+  "mapPage": {
+    "title": "Carte des parcelles",
+    "subtitle": "Parcourez les parcelles enregistrées. Les parcelles à vendre sont mises en évidence.",
+    "legend": { "registered": "Enregistrée", "forSale": "À vendre", "disputed": "En litige" }
+  },
+  "adminPanel": {
+    "title": "Admin",
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "users": "Utilisateurs",
+      "kyc": "File KYC",
+      "documents": "Examen des documents",
+      "parcels": "Parcelles",
+      "disputes": "Litiges",
+      "payments": "Paiements",
+      "theme": "Thème",
+      "logs": "Journaux d'audit",
+      "waitlist": "Liste d'attente"
+    },
+    "metrics": {
+      "totalUsers": "Utilisateurs",
+      "kycPending": "KYC en attente",
+      "flaggedDocs": "Documents signalés",
+      "activeSubs": "Abonnements actifs",
+      "totalParcels": "Parcelles",
+      "activeListings": "Annonces actives",
+      "openDisputes": "Litiges ouverts",
+      "waitlist": "Liste d'attente",
+      "monthlyRevenue": "Revenus du mois"
+    },
+    "actions": {
+      "approve": "Approuver",
+      "reject": "Rejeter",
+      "suspend": "Suspendre",
+      "reactivate": "Réactiver",
+      "flag": "Signaler",
+      "unflag": "Retirer le signalement",
+      "notes": "Notes",
+      "recheck": "Revérifier le statut",
+      "saveTheme": "Enregistrer le thème",
+      "role": "Rôle"
+    },
+    "theme": {
+      "title": "Éditeur de thème",
+      "subtitle": "Les modifications s'appliquent en direct à toute la plateforme.",
+      "primary": "Primaire",
+      "secondary": "Secondaire",
+      "accent": "Accent",
+      "background": "Arrière-plan",
+      "text": "Texte",
+      "saved": "Thème enregistré — actualisez pour le voir partout."
+    }
+  },
+  "mockCheckout": {
+    "title": "Paiement simulé (développement)",
+    "subtitle": "Fapshi n'est pas configuré — simulez le résultat du paiement.",
+    "success": "Simuler un paiement RÉUSSI",
+    "fail": "Simuler un paiement ÉCHOUÉ",
+    "done": "Webhook envoyé — vous pouvez retourner à l'application."
+  }
+}
