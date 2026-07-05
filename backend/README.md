@@ -65,3 +65,5 @@ in `requirements.txt`.
 ```bash
 venv\Scripts\python.exe -m pytest app/tests -q
 ```
+
+venv/Scripts/python.exe -m uvicorn app.main:app --reload --port 8000

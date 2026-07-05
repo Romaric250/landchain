@@ -26,6 +26,9 @@ class Settings(BaseSettings):
     # Email — Resend
     RESEND_API_KEY: str = ""
     EMAIL_FROM: str = "LandChain <noreply@landchain.app>"
+    EMAIL_LOGO_URL: str = (
+        "https://bouvzl2icp.ufs.sh/f/OymSP2c12cOMFdwVHZGO54b7HVQ6KiX3LatyEeDZrMm1wWoF"
+    )
 
     # Payments — Fapshi
     FAPSHI_BASE_URL: str = "https://sandbox.fapshi.com"
