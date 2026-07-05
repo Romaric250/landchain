@@ -165,28 +165,33 @@
   "team": {
     "kicker": "The people behind LandChain",
     "title": "Three builders on a mission",
-    "subtitle": "Product, engineering and legal expertise — united against land fraud in Cameroon.",
+    "subtitle": "Engineering, AI safety, and land-sector expertise — united against fraud in Cameroon.",
+    "featuredBadge": "Core team",
     "joinTitle": "Want to join the fight?",
-    "joinText": "We're always looking for engineers, legal minds and land-administration experts who care about property rights.",
+    "joinText": "We're always looking for engineers, AI researchers, and land-administration experts who care about property rights.",
     "joinCta": "Get in touch",
     "members": [
       {
-        "name": "Founder Name",
-        "role": "Co-Founder & CEO",
-        "bio": "Product and strategy. Obsessed with property rights, financial inclusion and building technology that protects ordinary families' savings.",
-        "focus": "Product · Strategy · Partnerships"
+        "name": "Romaric Lonfonyuy",
+        "role": "Founder",
+        "bio": "5+ years building production software across fintech and proptech. Leads LandChain's blockchain anchoring, AI verification pipeline, and platform architecture.",
+        "photoUrl": "https://bouvzl2icp.ufs.sh/f/OymSP2c12cOMKq7A008ZBf4YXe6NOh7c21pSG9UMLWdvyuoA",
+        "skills": ["Blockchain", "AI Systems", "System Design", "Full-Stack Engineering", "5+ Years Shipping Software"]
       },
       {
-        "name": "Co-Founder Name",
-        "role": "Co-Founder & CTO",
-        "bio": "Blockchain and AI systems engineer. Previously built fintech infrastructure across West and Central Africa.",
-        "focus": "Blockchain · AI · Infrastructure"
+        "name": "Anoh Precious Akwe",
+        "role": "Co-Founder · Head of AI Safety",
+        "bio": "Specialist in responsible AI, model safety, and adversarial testing. Ensures LandChain's document verification and KYC pipelines are fair, secure, and resistant to misuse.",
+        "photoUrl": "https://bouvzl2icp.ufs.sh/f/OymSP2c12cOMIAWV9f0FdfyZTGA7uoVbSC8I4nLvBqPmEkh2",
+        "featured": true,
+        "skills": ["AI Safety", "Responsible AI", "Deepfake Detection", "Model Evaluation", "Trust & Safety"]
       },
       {
-        "name": "Co-Founder Name",
-        "role": "Co-Founder & Head of Legal",
-        "bio": "Land law specialist with a decade of experience in Cameroonian property disputes — knows exactly how fraud happens, and how to stop it.",
-        "focus": "Land law · Compliance · Disputes"
+        "name": "Tawe Divine",
+        "role": "Co-Founder",
+        "bio": "Drives go-to-market strategy and institutional partnerships across Cameroon's land administration ecosystem.",
+        "photoUrl": null,
+        "skills": ["Partnerships", "Go-to-Market", "Land Administration", "Community Outreach", "Strategy"]
       }
     ]
   },

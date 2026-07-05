@@ -165,28 +165,33 @@
   "team": {
     "kicker": "Les visages derrière LandChain",
     "title": "Trois bâtisseurs en mission",
-    "subtitle": "Produit, ingénierie et expertise juridique — unis contre la fraude foncière au Cameroun.",
+    "subtitle": "Ingénierie, sécurité IA et expertise foncière — unis contre la fraude au Cameroun.",
+    "featuredBadge": "Équipe fondatrice",
     "joinTitle": "Envie de rejoindre le combat ?",
-    "joinText": "Nous recherchons toujours des ingénieurs, des juristes et des experts de l'administration foncière qui croient aux droits de propriété.",
+    "joinText": "Nous recherchons des ingénieurs, chercheurs en IA et experts de l'administration foncière qui croient aux droits de propriété.",
     "joinCta": "Contactez-nous",
     "members": [
       {
-        "name": "Nom du fondateur",
-        "role": "Co-fondateur & PDG",
-        "bio": "Produit et stratégie. Passionné par les droits de propriété, l'inclusion financière et les technologies qui protègent les économies des familles.",
-        "focus": "Produit · Stratégie · Partenariats"
+        "name": "Romaric Lonfonyuy",
+        "role": "Fondateur",
+        "bio": "Plus de 5 ans à construire des logiciels de production dans la fintech et la proptech. Dirige l'ancrage blockchain, le pipeline de vérification IA et l'architecture de LandChain.",
+        "photoUrl": "https://bouvzl2icp.ufs.sh/f/OymSP2c12cOMKq7A008ZBf4YXe6NOh7c21pSG9UMLWdvyuoA",
+        "skills": ["Blockchain", "Systèmes IA", "Conception système", "Ingénierie full-stack", "5+ ans en logiciel"]
       },
       {
-        "name": "Nom du co-fondateur",
-        "role": "Co-fondateur & CTO",
-        "bio": "Ingénieur systèmes blockchain et IA. A précédemment construit des infrastructures fintech en Afrique de l'Ouest et centrale.",
-        "focus": "Blockchain · IA · Infrastructure"
+        "name": "Anoh Precious Akwe",
+        "role": "Co-fondatrice · Responsable sécurité IA",
+        "bio": "Spécialiste de l'IA responsable, de la sécurité des modèles et des tests adversariaux. Garantit que les pipelines de vérification documentaire et KYC de LandChain sont équitables, sûrs et résistants aux abus.",
+        "photoUrl": "https://bouvzl2icp.ufs.sh/f/OymSP2c12cOMIAWV9f0FdfyZTGA7uoVbSC8I4nLvBqPmEkh2",
+        "featured": true,
+        "skills": ["Sécurité IA", "IA responsable", "Détection deepfake", "Évaluation de modèles", "Confiance & sécurité"]
       },
       {
-        "name": "Nom du co-fondateur",
-        "role": "Co-fondateur & Directeur juridique",
-        "bio": "Spécialiste du droit foncier avec dix ans d'expérience dans les litiges immobiliers camerounais — il sait exactement comment la fraude opère, et comment l'arrêter.",
-        "focus": "Droit foncier · Conformité · Litiges"
+        "name": "Tawe Divine",
+        "role": "Co-fondateur",
+        "bio": "Pilote la stratégie go-to-market et les partenariats institutionnels dans l'écosystème foncier camerounais.",
+        "photoUrl": null,
+        "skills": ["Partenariats", "Go-to-market", "Administration foncière", "Outreach communautaire", "Stratégie"]
       }
     ]
   },

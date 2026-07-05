@@ -2,17 +2,14 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Reveal } from "@/components/ui/Reveal";
 
-/* Placeholder portraits — replace with real team photos later. */
-const PHOTOS = [
-  "https://randomuser.me/api/portraits/men/32.jpg",
-  "https://randomuser.me/api/portraits/men/68.jpg",
-  "https://randomuser.me/api/portraits/women/44.jpg",
-];
-
-const SOCIALS = [
-  { label: "LinkedIn", href: "https://www.linkedin.com" },
-  { label: "X", href: "https://x.com" },
-];
+type TeamMember = {
+  name: string;
+  role: string;
+  bio: string;
+  photoUrl?: string | null;
+  skills: string[];
+  featured?: boolean;
+};
 
 export default async function TeamPage({
   params,
@@ -22,16 +19,10 @@ export default async function TeamPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("team");
-  const members = t.raw("members") as {
-    name: string;
-    role: string;
-    bio: string;
-    focus: string;
-  }[];
+  const members = t.raw("members") as TeamMember[];
 
   return (
     <>
-      {/* Page hero */}
       <section className="relative overflow-hidden bg-primary text-white">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-25"
@@ -51,43 +42,59 @@ export default async function TeamPage({
         </div>
       </section>
 
-      {/* Member cards */}
       <section className="bg-background">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="grid items-end gap-8 md:grid-cols-3">
             {members.map((member, i) => (
-              <Reveal key={member.role} delay={i * 130}>
-                <div className="group relative h-full overflow-hidden rounded-3xl border border-text/10 bg-background shadow-sm transition-all hover:-translate-y-2 hover:shadow-2xl">
-                  <div className="relative h-72 overflow-hidden">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={PHOTOS[i % PHOTOS.length]}
-                      alt={member.name}
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent" />
+              <Reveal key={member.name} delay={i * 130}>
+                <div
+                  className={`group relative h-full overflow-hidden rounded-3xl border bg-surface shadow-sm transition-all hover:-translate-y-2 hover:shadow-2xl ${
+                    member.featured
+                      ? "border-secondary/50 shadow-xl shadow-secondary/15 md:-translate-y-4 md:scale-[1.03]"
+                      : "border-primary/10"
+                  }`}
+                >
+                  <div className="relative h-80 overflow-hidden">
+                    {member.photoUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={member.photoUrl}
+                        alt={member.name}
+                        className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary to-primary/80">
+                        <span className="text-5xl font-extrabold text-white/30">
+                          {member.name
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")
+                            .slice(0, 2)}
+                        </span>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/30 to-transparent" />
+                    {member.featured && (
+                      <span className="absolute left-4 top-4 rounded-full bg-secondary px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-lg">
+                        {t("featuredBadge")}
+                      </span>
+                    )}
                     <div className="absolute bottom-0 left-0 right-0 p-6">
                       <h2 className="text-xl font-extrabold text-white">{member.name}</h2>
                       <p className="mt-0.5 text-sm font-semibold text-accent">{member.role}</p>
                     </div>
                   </div>
-                  <div className="flex h-[calc(100%-18rem)] flex-col p-6">
-                    <p className="flex-1 text-sm leading-relaxed text-text/75">{member.bio}</p>
-                    <p className="mt-4 text-xs font-semibold uppercase tracking-wider text-secondary">
-                      {member.focus}
-                    </p>
-                    <div className="mt-4 flex gap-2 border-t border-text/10 pt-4">
-                      {SOCIALS.map((s) => (
-                        <a
-                          key={s.label}
-                          href={s.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="rounded-full border border-text/15 px-3.5 py-1.5 text-xs font-semibold text-text/70 transition-colors hover:border-secondary hover:bg-secondary hover:text-white"
+                  <div className="flex flex-col p-6">
+                    <p className="text-sm leading-relaxed text-text/75">{member.bio}</p>
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {member.skills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="rounded-full border border-secondary/25 bg-secondary/10 px-3 py-1 text-xs font-semibold text-primary"
                         >
-                          {s.label}
-                        </a>
+                          {skill}
+                        </span>
                       ))}
                     </div>
                   </div>
@@ -96,19 +103,15 @@ export default async function TeamPage({
             ))}
           </div>
 
-          {/* Join CTA */}
           <Reveal delay={100}>
-            <div className="mt-20 flex flex-col items-center gap-6 rounded-3xl bg-accent/40 p-10 text-center sm:p-14">
+            <div className="mt-20 flex flex-col items-center gap-6 rounded-3xl border border-primary/10 bg-accent/40 p-10 text-center sm:p-14">
               <h2 className="text-2xl font-extrabold text-primary sm:text-3xl">{t("joinTitle")}</h2>
               <p className="max-w-xl text-sm text-text/75 sm:text-base">{t("joinText")}</p>
               <Link
                 href="/contact"
                 className="inline-flex items-center gap-2 rounded-full bg-secondary px-7 py-3.5 text-sm font-semibold text-white shadow-xl shadow-secondary/30 transition-transform hover:scale-[1.03]"
               >
-                {t("joinCta")}
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
+                {t("joinCta")} →
               </Link>
             </div>
           </Reveal>

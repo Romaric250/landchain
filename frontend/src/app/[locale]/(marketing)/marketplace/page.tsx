@@ -91,141 +91,137 @@ export default function MarketplacePage() {
         <div className="flex justify-center bg-background py-24">
           <Spinner className="h-10 w-10" />
         </div>
-      ) : parcels.length === 0 ? (
-        <section className="bg-background px-4 py-20 text-center sm:px-6">
-          <Reveal>
-            <div className="mx-auto max-w-md rounded-2xl border border-dashed border-primary/15 bg-surface p-12">
-              <MapPin className="mx-auto h-12 w-12 text-text/25" strokeWidth={1.5} />
-              <p className="mt-4 text-text/70">{t("empty")}</p>
-              <Link
-                href="/signup"
-                className="mt-6 inline-flex items-center gap-2 rounded-full bg-secondary px-6 py-3 text-sm font-semibold text-white"
-              >
-                {t("listCta")}
-                <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
-              </Link>
-            </div>
-          </Reveal>
-        </section>
       ) : (
-        <section className="relative min-h-[80vh] bg-primary lg:min-h-screen">
-          {/* Full-bleed map */}
-          <div className="relative h-[50vh] min-h-[22rem] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[58%]">
-            <MarketplaceMap
-              parcels={filtered}
-              selectedId={selected?.id}
-              onSelect={(p) => setSelectedId(p.id)}
-              className="h-full min-h-[22rem]"
-            />
-          </div>
-
-          {/* Floating listing panel */}
-          <div className="relative z-10 mx-auto max-w-7xl px-4 py-8 lg:px-6 lg:py-10">
-            <div className="lg:max-w-[42%]">
-              {/* Region filter */}
-              <div className="mb-4 flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={() => setRegionFilter("all")}
-                  className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-colors cursor-pointer ${
-                    regionFilter === "all"
-                      ? "bg-secondary text-white"
-                      : "border border-white/20 bg-white/10 text-white/80 hover:bg-white/15"
-                  }`}
-                >
-                  {t("allRegions")}
-                </button>
-                {regions.map((r) => (
+        <section className="grid min-h-[32rem] bg-primary lg:min-h-[calc(100vh-5rem)] lg:grid-cols-[minmax(0,42%)_minmax(0,58%)]">
+          {/* Listings panel — always visible */}
+          <div className="relative z-10 order-2 border-t border-white/10 px-4 py-8 lg:order-1 lg:border-t-0 lg:px-6 lg:py-10">
+            {parcels.length === 0 ? (
+              <Reveal>
+                <div className="rounded-2xl border border-dashed border-white/20 bg-white/5 p-10 text-center">
+                  <MapPin className="mx-auto h-12 w-12 text-white/30" strokeWidth={1.5} />
+                  <p className="mt-4 text-white/70">{t("empty")}</p>
+                  <Link
+                    href="/signup"
+                    className="mt-6 inline-flex items-center gap-2 rounded-full bg-secondary px-6 py-3 text-sm font-semibold text-white"
+                  >
+                    {t("listCta")}
+                    <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
+                  </Link>
+                </div>
+              </Reveal>
+            ) : (
+              <>
+                <div className="mb-4 flex flex-wrap gap-2">
                   <button
-                    key={r}
                     type="button"
-                    onClick={() => setRegionFilter(r)}
+                    onClick={() => setRegionFilter("all")}
                     className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-colors cursor-pointer ${
-                      regionFilter === r
+                      regionFilter === "all"
                         ? "bg-secondary text-white"
                         : "border border-white/20 bg-white/10 text-white/80 hover:bg-white/15"
                     }`}
                   >
-                    {r}
+                    {t("allRegions")}
                   </button>
-                ))}
-              </div>
-
-              <div className="nice-scroll max-h-[32rem] space-y-3 overflow-y-auto pr-1 lg:max-h-[calc(100vh-14rem)]">
-                {filtered.map((p, i) => {
-                  const active = p.id === selected?.id;
-                  return (
+                  {regions.map((r) => (
                     <button
-                      key={p.id}
+                      key={r}
                       type="button"
-                      onClick={() => setSelectedId(p.id)}
-                      className={`group w-full rounded-2xl border p-4 text-left transition-all cursor-pointer ${
-                        active
-                          ? "border-secondary bg-white shadow-xl shadow-secondary/20"
-                          : "border-white/10 bg-white/90 hover:border-secondary/40 hover:shadow-lg"
+                      onClick={() => setRegionFilter(r)}
+                      className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-colors cursor-pointer ${
+                        regionFilter === r
+                          ? "bg-secondary text-white"
+                          : "border border-white/20 bg-white/10 text-white/80 hover:bg-white/15"
                       }`}
                     >
-                      <div className="flex gap-4">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={SAMPLE_IMAGES[i % SAMPLE_IMAGES.length]}
-                          alt=""
-                          className="hidden h-20 w-20 shrink-0 rounded-xl object-cover sm:block"
-                        />
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-start justify-between gap-2">
-                            <span className="truncate font-mono text-sm font-bold text-primary">
-                              {p.parcel_reference}
-                            </span>
-                            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-emerald-700">
-                              <CheckCircle2 className="h-3 w-3" strokeWidth={2.5} />
-                              {t("verifiedBadge")}
-                            </span>
-                          </div>
-                          <p className="mt-1 flex items-center gap-1 text-xs text-text/60">
-                            <MapPin className="h-3 w-3" strokeWidth={2} />
-                            {p.region}
-                          </p>
-                          <div className="mt-2 flex items-end justify-between gap-2">
-                            <p className="text-lg font-extrabold text-secondary">
-                              {p.listing?.price_xaf
-                                ? `${Number(p.listing.price_xaf).toLocaleString()} XAF`
-                                : "—"}
+                      {r}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="nice-scroll max-h-[28rem] space-y-3 overflow-y-auto pr-1 lg:max-h-[calc(100vh-16rem)]">
+                  {filtered.map((p, i) => {
+                    const active = p.id === selected?.id;
+                    return (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClick={() => setSelectedId(p.id)}
+                        className={`group w-full rounded-2xl border p-4 text-left transition-all cursor-pointer ${
+                          active
+                            ? "border-secondary bg-white shadow-xl shadow-secondary/20"
+                            : "border-white/10 bg-white/90 hover:border-secondary/40 hover:shadow-lg"
+                        }`}
+                      >
+                        <div className="flex gap-4">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={SAMPLE_IMAGES[i % SAMPLE_IMAGES.length]}
+                            alt=""
+                            className="hidden h-20 w-20 shrink-0 rounded-xl object-cover sm:block"
+                          />
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-start justify-between gap-2">
+                              <span className="truncate font-mono text-sm font-bold text-primary">
+                                {p.parcel_reference}
+                              </span>
+                              <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-emerald-700">
+                                <CheckCircle2 className="h-3 w-3" strokeWidth={2.5} />
+                                {t("verifiedBadge")}
+                              </span>
+                            </div>
+                            <p className="mt-1 flex items-center gap-1 text-xs text-text/60">
+                              <MapPin className="h-3 w-3" strokeWidth={2} />
+                              {p.region}
                             </p>
-                            {p.area_sqm && (
-                              <p className="flex items-center gap-1 text-xs text-text/50">
-                                <Ruler className="h-3 w-3" strokeWidth={2} />
-                                {p.area_sqm.toLocaleString()} m²
+                            <div className="mt-2 flex items-end justify-between gap-2">
+                              <p className="text-lg font-extrabold text-secondary">
+                                {p.listing?.price_xaf
+                                  ? `${Number(p.listing.price_xaf).toLocaleString()} XAF`
+                                  : "—"}
                               </p>
-                            )}
+                              {p.area_sqm && (
+                                <p className="flex items-center gap-1 text-xs text-text/50">
+                                  <Ruler className="h-3 w-3" strokeWidth={2} />
+                                  {p.area_sqm.toLocaleString()} m²
+                                </p>
+                              )}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {selected && (
-                <div className="mt-4 rounded-2xl border border-secondary/30 bg-secondary/10 p-5 backdrop-blur-md">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-white/60">
-                    {t("selectedListing")}
-                  </p>
-                  <p className="mt-1 font-mono font-bold text-white">{selected.parcel_reference}</p>
-                  <Link
-                    href="/login"
-                    className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-secondary py-3 text-sm font-semibold text-white shadow-lg shadow-secondary/30 transition-transform hover:scale-[1.01]"
-                  >
-                    {t("inquire")}
-                    <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
-                  </Link>
+                      </button>
+                    );
+                  })}
                 </div>
-              )}
-            </div>
+
+                {selected && (
+                  <div className="mt-4 rounded-2xl border border-secondary/30 bg-secondary/10 p-5 backdrop-blur-md">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-white/60">
+                      {t("selectedListing")}
+                    </p>
+                    <p className="mt-1 font-mono font-bold text-white">{selected.parcel_reference}</p>
+                    <Link
+                      href="/login"
+                      className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-secondary py-3 text-sm font-semibold text-white shadow-lg shadow-secondary/30 transition-transform hover:scale-[1.01]"
+                    >
+                      {t("inquire")}
+                      <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
+                    </Link>
+                  </div>
+                )}
+              </>
+            )}
           </div>
 
-          {/* Spacer for mobile map height */}
-          <div className="h-[50vh] min-h-[22rem] lg:hidden" />
+          {/* Map — always visible, fixed height on mobile, fills column on desktop */}
+          <div className="relative order-1 min-h-[50vh] lg:order-2 lg:min-h-full">
+            <MarketplaceMap
+              parcels={filtered}
+              selectedId={selected?.id}
+              onSelect={(p) => setSelectedId(p.id)}
+              className="absolute inset-0 h-full w-full min-h-[50vh]"
+            />
+          </div>
         </section>
       )}
     </>

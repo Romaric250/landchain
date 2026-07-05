@@ -39,30 +39,76 @@ export default async function HowItWorksPage({
         image="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1920&q=80"
       />
 
-      {/* Journey timeline */}
+      {/* Steps — horizontal on xl, vertical timeline on smaller screens */}
       <section className="bg-background">
-        <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24">
-          <div className="relative">
-            <div className="absolute bottom-0 left-6 top-0 w-px bg-gradient-to-b from-secondary via-secondary/40 to-transparent sm:left-8" />
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
+          {/* Desktop: 4-column journey */}
+          <div className="hidden xl:block">
+            <div className="relative">
+              <div className="absolute left-[12.5%] right-[12.5%] top-10 h-0.5 bg-gradient-to-r from-secondary/20 via-secondary to-secondary/20" />
+              <div className="grid grid-cols-4 gap-6">
+                {steps.map((step, i) => {
+                  const Icon = STEP_ICONS[i % STEP_ICONS.length];
+                  return (
+                    <Reveal key={step.title} delay={i * 100}>
+                      <div className="flex flex-col items-center text-center">
+                        <div className="relative z-10 flex h-20 w-20 items-center justify-center rounded-2xl bg-secondary text-white shadow-xl shadow-secondary/30 ring-4 ring-background">
+                          <Icon className="h-8 w-8" strokeWidth={1.8} />
+                        </div>
+                        <span className="mt-5 text-xs font-bold uppercase tracking-widest text-secondary">
+                          {t("stepLabel", { n: i + 1 })}
+                        </span>
+                        <h2 className="mt-2 text-xl font-extrabold text-primary">{step.title}</h2>
+                        <p className="mt-3 text-sm leading-relaxed text-text/75">{step.text}</p>
+                      </div>
+                    </Reveal>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Tablet: 2×2 grid */}
+          <div className="hidden md:grid md:grid-cols-2 md:gap-8 xl:hidden">
+            {steps.map((step, i) => {
+              const Icon = STEP_ICONS[i % STEP_ICONS.length];
+              return (
+                <Reveal key={step.title} delay={i * 100}>
+                  <div className="flex gap-5 rounded-2xl border border-primary/10 bg-surface p-8 shadow-sm">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-secondary text-white shadow-lg shadow-secondary/25">
+                      <Icon className="h-7 w-7" strokeWidth={1.8} />
+                    </div>
+                    <div>
+                      <span className="text-xs font-bold uppercase tracking-widest text-secondary">
+                        {t("stepLabel", { n: i + 1 })}
+                      </span>
+                      <h2 className="mt-1 text-xl font-extrabold text-primary">{step.title}</h2>
+                      <p className="mt-2 text-sm leading-relaxed text-text/75">{step.text}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+
+          {/* Mobile: vertical timeline */}
+          <div className="relative md:hidden">
+            <div className="absolute bottom-0 left-6 top-0 w-px bg-gradient-to-b from-secondary via-secondary/40 to-transparent" />
             <div className="space-y-10">
               {steps.map((step, i) => {
                 const Icon = STEP_ICONS[i % STEP_ICONS.length];
                 return (
                   <Reveal key={step.title} delay={i * 100}>
-                    <div className="relative flex gap-6 sm:gap-8">
-                      <div className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-secondary text-white shadow-lg shadow-secondary/30 sm:h-16 sm:w-16">
-                        <Icon className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={1.8} />
+                    <div className="relative flex gap-6">
+                      <div className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-secondary text-white shadow-lg shadow-secondary/30">
+                        <Icon className="h-6 w-6" strokeWidth={1.8} />
                       </div>
-                      <div className="flex-1 rounded-2xl border border-primary/10 bg-surface p-6 shadow-sm transition-shadow hover:shadow-md sm:p-8">
+                      <div className="flex-1 rounded-2xl border border-primary/10 bg-surface p-6 shadow-sm">
                         <span className="text-xs font-bold uppercase tracking-widest text-secondary">
                           {t("stepLabel", { n: i + 1 })}
                         </span>
-                        <h2 className="mt-2 text-xl font-extrabold text-primary sm:text-2xl">
-                          {step.title}
-                        </h2>
-                        <p className="mt-3 text-sm leading-relaxed text-text/75 sm:text-base">
-                          {step.text}
-                        </p>
+                        <h2 className="mt-2 text-xl font-extrabold text-primary">{step.title}</h2>
+                        <p className="mt-3 text-sm leading-relaxed text-text/75">{step.text}</p>
                       </div>
                     </div>
                   </Reveal>

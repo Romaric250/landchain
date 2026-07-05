@@ -6,6 +6,21 @@ import type { Parcel } from "@/lib/types";
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
+function osmFallbackStyle(): maplibregl.StyleSpecification {
+  return {
+    version: 8,
+    sources: {
+      osm: {
+        type: "raster",
+        tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+        tileSize: 256,
+        attribution: "© OpenStreetMap contributors",
+      },
+    },
+    layers: [{ id: "osm", type: "raster", source: "osm" }],
+  };
+}
+
 function mapStyle(): maplibregl.StyleSpecification | string {
   if (MAPBOX_TOKEN) {
     return `https://api.mapbox.com/styles/v1/mapbox/dark-v11?access_token=${MAPBOX_TOKEN}`;
@@ -56,21 +71,37 @@ export default function MarketplaceMap({
   onSelectRef.current = onSelect;
 
   useEffect(() => {
-    if (!containerRef.current || mapRef.current) return;
+    const container = containerRef.current;
+    if (!container || mapRef.current) return;
+
     const map = new maplibregl.Map({
-      container: containerRef.current,
+      container,
       style: mapStyle(),
       center: DEFAULT_CENTER,
       zoom: 11,
       attributionControl: false,
     });
+
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
-    map.addControl(
-      new maplibregl.AttributionControl({ compact: true }),
-      "bottom-left",
-    );
+    map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-left");
+
+    map.on("error", () => {
+      if (map.getStyle()?.name !== "osm-fallback") {
+        map.setStyle(osmFallbackStyle());
+      }
+    });
+
+    map.on("load", () => {
+      map.resize();
+    });
+
     mapRef.current = map;
+
+    const ro = new ResizeObserver(() => map.resize());
+    ro.observe(container);
+
     return () => {
+      ro.disconnect();
       map.remove();
       mapRef.current = null;
     };
@@ -81,45 +112,56 @@ export default function MarketplaceMap({
     const map = mapRef.current;
     if (!map) return;
 
-    markersRef.current.forEach(({ marker }) => marker.remove());
-    markersRef.current = [];
+    const placeMarkers = () => {
+      markersRef.current.forEach(({ marker }) => marker.remove());
+      markersRef.current = [];
 
-    const bounds = new maplibregl.LngLatBounds();
-    let hasBounds = false;
+      const bounds = new maplibregl.LngLatBounds();
+      let hasBounds = false;
 
-    for (const parcel of parcels) {
-      const coords = parcelLngLat(parcel);
-      if (!coords) continue;
+      for (const parcel of parcels) {
+        const coords = parcelLngLat(parcel);
+        if (!coords) continue;
 
-      const el = document.createElement("button");
-      el.type = "button";
-      el.className =
-        "group flex flex-col items-center border-0 bg-transparent p-0 cursor-pointer transition-transform hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary";
-      const price = formatPrice(parcel.listing?.price_xaf);
-      el.innerHTML = `
-        <span style="display:block;border-radius:9999px;background:#b45309;color:#fff;padding:4px 10px;font-size:11px;font-weight:700;white-space:nowrap;box-shadow:0 4px 14px rgba(180,83,9,0.45)">
-          ${price} XAF
-        </span>
-        <span style="display:block;margin:2px auto 0;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid #b45309"></span>
-        <span style="display:block;margin:4px auto 0;width:10px;height:10px;border-radius:50%;background:#b45309;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3)"></span>
-      `;
-      el.addEventListener("click", (e) => {
-        e.stopPropagation();
-        onSelectRef.current?.(parcel);
-        map.flyTo({ center: coords, zoom: 14, duration: 1200 });
-      });
+        const el = document.createElement("button");
+        el.type = "button";
+        el.setAttribute("aria-label", "Map marker");
+        el.style.cssText =
+          "display:flex;flex-direction:column;align-items:center;border:0;background:transparent;padding:0;cursor:pointer;";
+        const price = formatPrice(parcel.listing?.price_xaf);
+        el.innerHTML = `
+          <span style="display:block;border-radius:9999px;background:#b45309;color:#fff;padding:4px 10px;font-size:11px;font-weight:700;white-space:nowrap;box-shadow:0 4px 14px rgba(180,83,9,0.45)">
+            ${price} XAF
+          </span>
+          <span style="display:block;margin:2px auto 0;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid #b45309"></span>
+          <span style="display:block;margin:4px auto 0;width:10px;height:10px;border-radius:50%;background:#b45309;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3)"></span>
+        `;
+        el.addEventListener("click", (e) => {
+          e.stopPropagation();
+          onSelectRef.current?.(parcel);
+          map.flyTo({ center: coords, zoom: 14, duration: 1200 });
+        });
 
-      const marker = new maplibregl.Marker({ element: el, anchor: "bottom" })
-        .setLngLat(coords)
-        .addTo(map);
+        const marker = new maplibregl.Marker({ element: el, anchor: "bottom" })
+          .setLngLat(coords)
+          .addTo(map);
 
-      markersRef.current.push({ marker, parcel, el });
-      bounds.extend(coords);
-      hasBounds = true;
-    }
+        markersRef.current.push({ marker, parcel, el });
+        bounds.extend(coords);
+        hasBounds = true;
+      }
 
-    if (hasBounds && parcels.length > 0) {
-      map.fitBounds(bounds, { padding: 80, maxZoom: 13, duration: 1000 });
+      if (hasBounds && parcels.length > 0) {
+        map.fitBounds(bounds, { padding: 80, maxZoom: 13, duration: 1000 });
+      } else {
+        map.flyTo({ center: DEFAULT_CENTER, zoom: 11, duration: 800 });
+      }
+    };
+
+    if (map.isStyleLoaded()) {
+      placeMarkers();
+    } else {
+      map.once("load", placeMarkers);
     }
   }, [parcels]);
 
@@ -142,7 +184,7 @@ export default function MarketplaceMap({
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
-      <div ref={containerRef} className="absolute inset-0" />
+      <div ref={containerRef} className="absolute inset-0 min-h-[50vh]" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-primary/40 via-transparent to-primary/20" />
     </div>
   );

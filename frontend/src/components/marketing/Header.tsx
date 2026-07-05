@@ -9,9 +9,9 @@ import { useAuth } from "@/lib/auth";
 const NAV_ITEMS = [
   { href: "/how-it-works", key: "howItWorks" },
   { href: "/marketplace", key: "marketplace" },
-  { href: "/pricing", key: "pricing" },
-  { href: "/about", key: "about" },
   { href: "/team", key: "team" },
+  { href: "/about", key: "about" },
+  { href: "/pricing", key: "pricing" },
 ] as const;
 
 export function LocaleSwitcher({ light = false }: { light?: boolean }) {

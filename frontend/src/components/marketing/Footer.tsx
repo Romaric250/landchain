@@ -16,7 +16,6 @@ export function Footer() {
         { href: "/how-it-works", label: tn("howItWorks") },
         { href: "/marketplace", label: tn("marketplace") },
         { href: "/verify", label: tn("verify") },
-        { href: "/pricing", label: tn("pricing") },
         { href: "/map", label: tn("map") },
       ],
     },
@@ -25,6 +24,7 @@ export function Footer() {
       links: [
         { href: "/about", label: tn("about") },
         { href: "/team", label: tn("team") },
+        { href: "/pricing", label: tn("pricing") },
         { href: "/faq", label: tn("faq") },
         { href: "/contact", label: tn("contact") },
       ],
