@@ -244,3 +244,7 @@ export function PageTitle({
     </div>
   );
 }
+
+export { DropdownMenu, DropdownItem, DropdownTriggerButton } from "./DropdownMenu";
+export { Modal } from "./Modal";
+export { CameraCapture } from "./CameraCapture";

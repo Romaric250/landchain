@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { ChevronDown, Globe, LayoutDashboard, LogOut } from "lucide-react";
 import { LandChainLogo } from "./LandChainLogo";
 import { useAuth } from "@/lib/auth";
+import { DropdownItem, DropdownMenu } from "@/components/ui/DropdownMenu";
 
 const NAV_ITEMS = [
   { href: "/how-it-works", key: "howItWorks" },
@@ -20,40 +22,35 @@ export function LocaleSwitcher({ light = false }: { light?: boolean }) {
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
+  const tc = useTranslations("common");
 
   return (
-    <div
-      className={`inline-flex overflow-hidden rounded-md border text-xs font-bold uppercase tracking-wide ${
-        light ? "border-white/30" : "border-text/20"
-      }`}
-      role="group"
-      aria-label="Switch language"
+    <DropdownMenu
+      align="right"
+      trigger={
+        <span
+          className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wide cursor-pointer ${
+            light ? "border-white/30 text-white hover:bg-white/10" : "border-text/20 text-text/70 hover:bg-accent/50"
+          }`}
+        >
+          <Globe className="h-3.5 w-3.5" strokeWidth={2} />
+          {locale}
+          <ChevronDown className="h-3 w-3 opacity-60" strokeWidth={2.5} />
+        </span>
+      }
     >
-      {LOCALES.map((l) => {
-        const active = locale === l;
-        return (
-          <button
-            key={l}
-            type="button"
-            onClick={() => {
-              if (!active) router.replace(pathname, { locale: l });
-            }}
-            className={`px-2.5 py-1 transition-colors cursor-pointer ${
-              active
-                ? light
-                  ? "bg-white text-primary"
-                  : "bg-primary text-background"
-                : light
-                  ? "text-white/70 hover:bg-white/10"
-                  : "text-text/60 hover:bg-accent/50"
-            }`}
-            aria-current={active ? "true" : undefined}
-          >
-            {l}
-          </button>
-        );
-      })}
-    </div>
+      {LOCALES.map((l) => (
+        <DropdownItem
+          key={l}
+          onClick={() => {
+            if (locale !== l) router.replace(pathname, { locale: l });
+          }}
+          className={locale === l ? "font-semibold text-primary" : ""}
+        >
+          {l === "fr" ? tc("french") : tc("english")}
+        </DropdownItem>
+      ))}
+    </DropdownMenu>
   );
 }
 
@@ -72,7 +69,8 @@ function Logo({ light }: { light: boolean }) {
 export function Header() {
   const t = useTranslations("nav");
   const tc = useTranslations("common");
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const router = useRouter();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -86,8 +84,6 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Over the hero the header floats transparent with white text;
-  // once scrolled (or on any other page) it becomes a solid glass bar.
   const light = isHome && !scrolled && !open;
   const solid = !isHome || scrolled || open;
 
@@ -138,12 +134,40 @@ export function Header() {
             {t("verify")}
           </Link>
           {user ? (
-            <Link
-              href="/dashboard"
-              className="rounded-full bg-secondary px-5 py-2 text-sm font-semibold text-background shadow-lg shadow-secondary/25 transition-transform hover:scale-[1.03]"
+            <DropdownMenu
+              align="right"
+              trigger={
+                <span
+                  className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold cursor-pointer ${
+                    light
+                      ? "bg-white/15 text-white hover:bg-white/20"
+                      : "bg-secondary text-background shadow-lg shadow-secondary/25"
+                  }`}
+                >
+                  <LayoutDashboard className="h-4 w-4" strokeWidth={2} />
+                  {user.name.split(" ")[0]}
+                  <ChevronDown className="h-3.5 w-3.5 opacity-70" strokeWidth={2.5} />
+                </span>
+              }
             >
-              {tc("dashboard")}
-            </Link>
+              <Link
+                href="/dashboard"
+                className="flex w-full items-center gap-2 px-3.5 py-2.5 text-sm text-text/80 hover:bg-accent/40 hover:text-primary"
+                role="menuitem"
+              >
+                <LayoutDashboard className="h-4 w-4" strokeWidth={2} />
+                {tc("dashboard")}
+              </Link>
+              <DropdownItem
+                onClick={async () => {
+                  await logout();
+                  router.push("/");
+                }}
+              >
+                <LogOut className="h-4 w-4" strokeWidth={2} />
+                {tc("logout")}
+              </DropdownItem>
+            </DropdownMenu>
           ) : (
             <>
               <Link
@@ -199,13 +223,26 @@ export function Header() {
             <div className="mt-3 flex items-center gap-3 border-t border-text/10 pt-4">
               <LocaleSwitcher />
               {user ? (
-                <Link
-                  href="/dashboard"
-                  onClick={() => setOpen(false)}
-                  className="flex-1 rounded-full bg-secondary px-5 py-2.5 text-center text-sm font-semibold text-background"
-                >
-                  {tc("dashboard")}
-                </Link>
+                <>
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setOpen(false)}
+                    className="flex-1 rounded-full bg-secondary px-5 py-2.5 text-center text-sm font-semibold text-background"
+                  >
+                    {tc("dashboard")}
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      await logout();
+                      setOpen(false);
+                      router.push("/");
+                    }}
+                    className="rounded-full border border-primary/25 px-4 py-2.5 text-sm font-semibold text-primary cursor-pointer"
+                  >
+                    {tc("logout")}
+                  </button>
+                </>
               ) : (
                 <>
                   <Link

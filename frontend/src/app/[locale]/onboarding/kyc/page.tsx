@@ -101,6 +101,7 @@ function KycContent() {
             label={t("selfie")}
             value={form.selfie_url}
             onChange={(url) => setForm({ ...form, selfie_url: url })}
+            cameraFacing="user"
           />
           {error && <Alert tone="error">{error}</Alert>}
           <Button

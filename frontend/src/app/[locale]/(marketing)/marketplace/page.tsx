@@ -7,16 +7,27 @@ import { Link } from "@/i18n/navigation";
 import {
   ArrowRight,
   CheckCircle2,
+  Mail,
   MapPin,
   Ruler,
+  Search,
   ShieldCheck,
   Tag,
 } from "lucide-react";
 import { api } from "@/lib/api-client";
+import { useAuth } from "@/lib/auth";
 import type { Parcel } from "@/lib/types";
 import { PageHero } from "@/components/marketing/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
-import { MapSkeleton, MarketplacePageSkeleton, Skeleton } from "@/components/ui";
+import {
+  Button,
+  MapSkeleton,
+  MarketplacePageSkeleton,
+  Modal,
+  Select,
+  Skeleton,
+} from "@/components/ui";
+import { DropdownItem, DropdownMenu } from "@/components/ui/DropdownMenu";
 
 const MarketplaceMap = dynamic(() => import("@/components/map/MarketplaceMap"), {
   ssr: false,
@@ -55,9 +66,11 @@ function FilterPill({
 
 export default function MarketplacePage() {
   const t = useTranslations("marketplace");
+  const { user, loading: authLoading } = useAuth();
   const [parcels, setParcels] = useState<Parcel[] | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [regionFilter, setRegionFilter] = useState("all");
+  const [contactOpen, setContactOpen] = useState(false);
 
   useEffect(() => {
     api<{ items: Parcel[] }>("/parcels?for_sale=true&limit=100", { auth: false })
@@ -147,7 +160,7 @@ export default function MarketplacePage() {
                     </Reveal>
                   ) : (
                     <>
-                      <div className="mb-3 flex flex-wrap gap-1.5">
+                      <div className="mb-3 hidden flex-wrap gap-1.5 sm:flex">
                         <FilterPill
                           active={regionFilter === "all"}
                           onClick={() => setRegionFilter("all")}
@@ -163,6 +176,20 @@ export default function MarketplacePage() {
                             {r}
                           </FilterPill>
                         ))}
+                      </div>
+                      <div className="mb-3 sm:hidden">
+                        <Select
+                          label={t("filterRegion")}
+                          value={regionFilter}
+                          onChange={(e) => setRegionFilter(e.target.value)}
+                        >
+                          <option value="all">{t("allRegions")}</option>
+                          {regions.map((r) => (
+                            <option key={r} value={r}>
+                              {r}
+                            </option>
+                          ))}
+                        </Select>
                       </div>
 
                       <div className="nice-scroll max-h-[20rem] space-y-2 overflow-y-auto pr-0.5 lg:max-h-[calc(28rem-8rem)]">
@@ -245,15 +272,65 @@ export default function MarketplacePage() {
                               </span>
                             )}
                           </div>
-                          <Link
-                            href="/login"
-                            className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-secondary py-2.5 text-xs font-semibold text-white shadow-sm shadow-secondary/20 transition-transform hover:scale-[1.01] sm:text-sm"
-                          >
-                            {t("inquire")}
-                            <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} />
-                          </Link>
+                          {authLoading ? (
+                            <Skeleton className="mt-3 h-10 w-full rounded-lg" />
+                          ) : user ? (
+                            <DropdownMenu
+                              className="mt-3 w-full"
+                              trigger={
+                                <span className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-secondary py-2.5 text-xs font-semibold text-white shadow-sm shadow-secondary/20 sm:text-sm">
+                                  {t("contactSeller")}
+                                  <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} />
+                                </span>
+                              }
+                            >
+                              <DropdownItem onClick={() => setContactOpen(true)}>
+                                <Mail className="h-4 w-4" strokeWidth={2} />
+                                {t("requestContact")}
+                              </DropdownItem>
+                              <Link
+                                href={`/verify?ref=${encodeURIComponent(selected.parcel_reference)}`}
+                                className="flex w-full items-center gap-2 px-3.5 py-2.5 text-left text-sm text-text/80 transition-colors hover:bg-accent/40 hover:text-primary"
+                                role="menuitem"
+                              >
+                                <Search className="h-4 w-4" strokeWidth={2} />
+                                {t("verifyListing")}
+                              </Link>
+                            </DropdownMenu>
+                          ) : (
+                            <Link
+                              href="/login"
+                              className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-secondary py-2.5 text-xs font-semibold text-white shadow-sm shadow-secondary/20 transition-transform hover:scale-[1.01] sm:text-sm"
+                            >
+                              {t("inquire")}
+                              <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} />
+                            </Link>
+                          )}
                         </div>
                       )}
+
+                      <Modal open={contactOpen} onClose={() => setContactOpen(false)} title={t("contactTitle")}>
+                        <p className="text-sm text-text/70">{t("contactBody")}</p>
+                        {selected && (
+                          <p className="mt-3 rounded-lg bg-accent/40 px-3 py-2 font-mono text-sm font-semibold text-primary">
+                            {selected.parcel_reference}
+                          </p>
+                        )}
+                        <div className="mt-5 flex flex-col gap-2">
+                          <Button variant="secondary" onClick={() => setContactOpen(false)}>
+                            {t("contactClose")}
+                          </Button>
+                          <a
+                            href={`mailto:support@landchain.cm?subject=${encodeURIComponent(
+                              `Marketplace inquiry — ${selected?.parcel_reference ?? ""}`,
+                            )}`}
+                            className="inline-flex items-center justify-center gap-2 rounded-lg border border-primary/15 px-4 py-2 text-sm font-medium text-primary hover:bg-accent/40"
+                          >
+                            <Mail className="h-4 w-4" strokeWidth={2} />
+                            {t("contactEmail")}
+                          </a>
+                        </div>
+                      </Modal>
                     </>
                   )}
                 </div>

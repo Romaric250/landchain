@@ -1,10 +1,8 @@
 "use client";
 
 import { usePathname } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import { LocaleSwitcher } from "@/components/marketing/Header";
-import { ShieldCheck } from "lucide-react";
+import { LandChainLogo } from "@/components/marketing/LandChainLogo";
 
 const AUTH_BACKGROUNDS: Record<string, string> = {
   "/login":
@@ -43,7 +41,6 @@ const AUTH_TAGLINES: Record<string, { title: string; text: string }> = {
 };
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
-  const tc = useTranslations("common");
   const pathname = usePathname();
   const bg = AUTH_BACKGROUNDS[pathname] ?? AUTH_BACKGROUNDS["/login"];
   const tagline = AUTH_TAGLINES[pathname] ?? AUTH_TAGLINES["/login"];
@@ -58,12 +55,13 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         />
         <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/75 to-primary/60" />
         <div className="relative z-10 flex flex-1 flex-col justify-between p-10 xl:p-14">
-          <Link href="/" className="flex items-center gap-3 text-xl font-extrabold text-white">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary text-white shadow-lg shadow-secondary/30">
-              <ShieldCheck className="h-5 w-5" strokeWidth={2.2} />
-            </span>
-            {tc("appName")}
-          </Link>
+          <LandChainLogo
+            href="/"
+            size={40}
+            showName
+            priority
+            nameClassName="text-xl font-extrabold text-white"
+          />
           <div>
             <h2 className="text-3xl font-extrabold leading-tight text-white xl:text-4xl">
               {tagline.title}
@@ -90,12 +88,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       {/* Right panel — form */}
       <div className="flex flex-1 flex-col bg-[color-mix(in_srgb,var(--lc-primary)_6%,var(--lc-accent))]">
         <header className="flex items-center justify-between px-5 py-5 sm:px-8">
-          <Link href="/" className="flex items-center gap-2 text-lg font-bold text-primary lg:hidden">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-white text-sm">
-              <ShieldCheck className="h-4 w-4" />
-            </span>
-            {tc("appName")}
-          </Link>
+          <LandChainLogo href="/" size={32} showName className="lg:hidden" />
           <div className="ml-auto">
             <LocaleSwitcher />
           </div>

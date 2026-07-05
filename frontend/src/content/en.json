@@ -15,6 +15,8 @@
     "dashboard": "Dashboard",
     "admin": "Admin",
     "language": "Language",
+    "english": "English",
+    "french": "Français",
     "email": "Email",
     "password": "Password",
     "name": "Full name",
@@ -308,7 +310,15 @@
     "area": "Area",
     "listedUntil": "Listed until",
     "viewOnMap": "View on map",
-    "inquire": "Log in to inquire"
+    "inquire": "Log in to contact",
+    "contactSeller": "Contact seller",
+    "requestContact": "Request contact",
+    "verifyListing": "Verify this listing",
+    "filterRegion": "Region",
+    "contactTitle": "Contact about this listing",
+    "contactBody": "LandChain will connect you with the seller. Include the parcel reference in your message.",
+    "contactClose": "Got it",
+    "contactEmail": "Email LandChain support"
   },
   "auth": {
     "loginTitle": "Welcome back",
@@ -356,7 +366,15 @@
     "orUrl": "Or paste a file URL instead",
     "urlPlaceholder": "https://…",
     "useUrl": "Use this URL",
-    "devHint": "File uploads use UploadThing. If uploads are not configured yet, paste a URL below."
+    "modeFile": "Upload file",
+    "modeCamera": "Take photo",
+    "modeUrl": "Paste URL",
+    "takePhoto": "Capture photo",
+    "cancelCamera": "Cancel",
+    "cameraDenied": "Camera access was denied. Allow camera access or choose another method.",
+    "uploading": "Uploading…",
+    "uploadFailed": "Upload failed. Try again or paste a URL.",
+    "loginRequired": "You must be logged in to upload files."
   },
   "dashboard": {
     "title": "Dashboard",
@@ -504,11 +522,11 @@
       "saved": "Theme saved — refresh to see it everywhere."
     }
   },
-  "mockCheckout": {
-    "title": "Mock checkout (development)",
-    "subtitle": "Fapshi is not configured — simulate the payment result.",
-    "success": "Simulate SUCCESSFUL payment",
-    "fail": "Simulate FAILED payment",
-    "done": "Webhook sent — you can return to the app."
+  "checkout": {
+    "title": "Complete your payment",
+    "subtitle": "Confirm your LandChain payment to continue.",
+    "confirm": "Confirm payment",
+    "cancel": "Cancel payment",
+    "done": "Payment confirmed. You can return to your dashboard."
   }
 }

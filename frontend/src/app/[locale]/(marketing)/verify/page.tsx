@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import {
@@ -56,11 +57,21 @@ const STATUS_STYLE: Record<
 };
 
 export default function VerifyPage() {
+  return (
+    <Suspense fallback={null}>
+      <VerifyPageInner />
+    </Suspense>
+  );
+}
+
+function VerifyPageInner() {
   const t = useTranslations("verify");
+  const searchParams = useSearchParams();
   const [ref, setRef] = useState("");
   const [result, setResult] = useState<QuickVerifyResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [prefilled, setPrefilled] = useState(false);
 
   const steps = t.raw("steps") as { title: string; text: string }[];
 
@@ -83,6 +94,16 @@ export default function VerifyPage() {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (prefilled) return;
+    const q = searchParams.get("ref")?.trim();
+    if (q && q.length >= 3) {
+      setPrefilled(true);
+      setRef(q);
+      void runSearch(q);
+    }
+  }, [searchParams, prefilled]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();

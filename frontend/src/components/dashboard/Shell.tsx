@@ -3,9 +3,12 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { ChevronDown, LogOut } from "lucide-react";
 import { useAuth } from "@/lib/auth";
-import { Spinner } from "@/components/ui";
+import { LandChainLogo } from "@/components/marketing/LandChainLogo";
 import { LocaleSwitcher } from "@/components/marketing/Header";
+import { Spinner } from "@/components/ui";
+import { DropdownItem, DropdownMenu } from "@/components/ui/DropdownMenu";
 
 export interface NavItem {
   href: string;
@@ -54,9 +57,8 @@ export function AppShell({
     <div className="flex min-h-screen flex-col lg:flex-row">
       {/* Mobile top bar */}
       <div className="flex items-center justify-between border-b border-text/10 bg-primary px-4 py-3 text-background lg:hidden">
-        <Link href="/" className="font-bold">
-          LandChain <span className="text-xs opacity-70">{title}</span>
-        </Link>
+        <LandChainLogo href="/dashboard" size={28} showName nameClassName="text-sm font-bold text-background" />
+        <span className="text-xs opacity-70">{title}</span>
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle navigation"
@@ -74,14 +76,9 @@ export function AppShell({
           menuOpen ? "block" : "hidden"
         } w-full border-b border-text/10 bg-primary text-background lg:flex lg:min-h-screen lg:w-64 lg:flex-col lg:border-b-0`}
       >
-        <div className="hidden items-center gap-2 px-6 py-5 text-lg font-bold lg:flex">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-background text-primary text-sm">
-            LC
-          </span>
-          <div>
-            LandChain
-            <div className="text-xs font-normal opacity-60">{title}</div>
-          </div>
+        <div className="hidden items-center gap-2 px-6 py-5 lg:flex">
+          <LandChainLogo href="/dashboard" size={32} showName nameClassName="text-lg font-bold text-background" />
+          <div className="text-xs font-normal opacity-60">{title}</div>
         </div>
         <nav className="flex flex-col gap-1 px-3 py-4 lg:flex-1" aria-label={title}>
           {nav.map((item) => {
@@ -121,22 +118,33 @@ export function AppShell({
           )}
         </nav>
         <div className="flex items-center justify-between gap-2 border-t border-background/20 px-4 py-4">
-          <div className="min-w-0">
-            <p className="truncate text-sm font-medium">{user.name}</p>
-            <p className="truncate text-xs opacity-60">{user.email}</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <LocaleSwitcher />
-            <button
+          <DropdownMenu
+            align="right"
+            className="min-w-0 flex-1"
+            trigger={
+              <span className="flex min-w-0 cursor-pointer items-center gap-2 rounded-lg px-1 py-1 hover:bg-background/10">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-background/15 text-xs font-bold">
+                  {user.name.charAt(0).toUpperCase()}
+                </span>
+                <span className="min-w-0 flex-1 text-left">
+                  <p className="truncate text-sm font-medium">{user.name}</p>
+                  <p className="truncate text-xs opacity-60">{user.email}</p>
+                </span>
+                <ChevronDown className="h-4 w-4 shrink-0 opacity-60" strokeWidth={2} />
+              </span>
+            }
+          >
+            <DropdownItem
               onClick={async () => {
                 await logout();
                 router.push("/");
               }}
-              className="rounded-md border border-background/30 px-2 py-1 text-xs hover:bg-background/10 cursor-pointer"
             >
+              <LogOut className="h-4 w-4" strokeWidth={2} />
               {tc("logout")}
-            </button>
-          </div>
+            </DropdownItem>
+          </DropdownMenu>
+          <LocaleSwitcher />
         </div>
       </aside>
 

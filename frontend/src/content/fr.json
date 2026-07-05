@@ -15,6 +15,8 @@
     "dashboard": "Tableau de bord",
     "admin": "Admin",
     "language": "Langue",
+    "english": "English",
+    "french": "Français",
     "email": "E-mail",
     "password": "Mot de passe",
     "name": "Nom complet",
@@ -308,7 +310,15 @@
     "area": "Superficie",
     "listedUntil": "Publiée jusqu'au",
     "viewOnMap": "Voir sur la carte",
-    "inquire": "Connectez-vous pour contacter"
+    "inquire": "Connectez-vous pour contacter",
+    "contactSeller": "Contacter le vendeur",
+    "requestContact": "Demander un contact",
+    "verifyListing": "Vérifier cette annonce",
+    "filterRegion": "Région",
+    "contactTitle": "Contacter à propos de cette annonce",
+    "contactBody": "LandChain vous mettra en relation avec le vendeur. Mentionnez la référence de la parcelle dans votre message.",
+    "contactClose": "Compris",
+    "contactEmail": "Écrire au support LandChain"
   },
   "auth": {
     "loginTitle": "Bon retour",
@@ -356,7 +366,15 @@
     "orUrl": "Ou collez l'URL d'un fichier",
     "urlPlaceholder": "https://…",
     "useUrl": "Utiliser cette URL",
-    "devHint": "Les téléversements utilisent UploadThing. Si les téléversements ne sont pas encore configurés, collez une URL ci-dessous."
+    "modeFile": "Téléverser un fichier",
+    "modeCamera": "Prendre une photo",
+    "modeUrl": "Coller une URL",
+    "takePhoto": "Capturer la photo",
+    "cancelCamera": "Annuler",
+    "cameraDenied": "Accès à la caméra refusé. Autorisez la caméra ou choisissez une autre méthode.",
+    "uploading": "Téléversement…",
+    "uploadFailed": "Échec du téléversement. Réessayez ou collez une URL.",
+    "loginRequired": "Vous devez être connecté pour téléverser des fichiers."
   },
   "dashboard": {
     "title": "Tableau de bord",
@@ -504,11 +522,11 @@
       "saved": "Thème enregistré — actualisez pour le voir partout."
     }
   },
-  "mockCheckout": {
-    "title": "Paiement simulé (développement)",
-    "subtitle": "Fapshi n'est pas configuré — simulez le résultat du paiement.",
-    "success": "Simuler un paiement RÉUSSI",
-    "fail": "Simuler un paiement ÉCHOUÉ",
-    "done": "Webhook envoyé — vous pouvez retourner à l'application."
+  "checkout": {
+    "title": "Finaliser votre paiement",
+    "subtitle": "Confirmez votre paiement LandChain pour continuer.",
+    "confirm": "Confirmer le paiement",
+    "cancel": "Annuler le paiement",
+    "done": "Paiement confirmé. Vous pouvez retourner à votre tableau de bord."
   }
 }
