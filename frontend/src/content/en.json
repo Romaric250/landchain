@@ -193,12 +193,19 @@
   "howItWorksPage": {
     "title": "How LandChain works",
     "subtitle": "From registration to safe transfer, in four steps.",
+    "heroKicker": "The LandChain journey",
+    "stepLabel": "Step {n}",
     "tech": {
       "title": "The technology, in plain words",
+      "subtitle": "Serious infrastructure behind a simple experience — no blockchain knowledge required.",
       "blockchain": "Think of the blockchain as a public notebook that nobody can secretly edit. When your parcel is registered, a fingerprint of the record is written into that notebook forever. If anyone tampers with the record later, the fingerprint no longer matches — and everyone can see it.",
       "ai": "Our AI examines documents the way a trained expert would — checking stamps, fonts, signatures and the invisible traces that AI-generated forgeries leave behind. Anything suspicious goes to a human reviewer: no machine ever rejects your documents on its own.",
       "privacy": "Your personal data and documents never go on the blockchain. Only anonymous fingerprints (hashes) are stored on-chain."
-    }
+    },
+    "ctaTitle": "Ready to verify your first parcel?",
+    "ctaText": "Run a free basic lookup now — or create an account for full verification reports.",
+    "ctaVerify": "Verify a parcel",
+    "ctaSignup": "Create free account"
   },
   "pricing": {
     "title": "Simple, transparent pricing",
@@ -246,8 +253,12 @@
   "verify": {
     "title": "Verify a land parcel",
     "subtitle": "Enter a parcel reference to check its status. Free lookups show basic status only.",
+    "heroKicker": "Free public lookup",
     "placeholder": "e.g. LT-2024-DLA-00123",
     "button": "Check parcel",
+    "searchHint": "Enter a parcel reference above to see its LandChain status instantly.",
+    "resultLabel": "Verification result",
+    "features": ["Basic status", "Region & year", "Instant result"],
     "notFound": "No parcel with this reference is registered on LandChain.",
     "foundRegistered": "This parcel is registered on LandChain.",
     "foundDisputed": "Warning: this parcel is currently under dispute.",
@@ -261,6 +272,13 @@
   "marketplace": {
     "title": "Land for sale",
     "subtitle": "Every listing has passed LandChain verification and is not disputed.",
+    "heroKicker": "Verified listings only",
+    "listings": "{count} active listings",
+    "verifiedOnly": "Every parcel verified & dispute-free",
+    "allRegions": "All regions",
+    "verifiedBadge": "Verified",
+    "selectedListing": "Selected listing",
+    "listCta": "List your parcel",
     "empty": "No active listings right now. Check back soon.",
     "price": "Asking price",
     "area": "Area",

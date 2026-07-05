@@ -5,23 +5,25 @@ import { MarketplacePreview } from "@/components/marketing/MarketplacePreview";
 import { WaitlistForm } from "@/components/marketing/WaitlistForm";
 import { Reveal } from "@/components/ui/Reveal";
 import {
-  BoltIcon,
-  BrainIcon,
-  CopyAlertIcon,
-  EditAlertIcon,
-  FileWarningIcon,
-  LayersIcon,
-  LockIcon,
-  MaskIcon,
-  RouteIcon,
-  ScanIcon,
-  ShieldIcon,
-  UsersIcon,
-} from "@/components/marketing/icons";
+  AlertTriangle,
+  Clock,
+  Copy,
+  FilePenLine,
+  FileSearch,
+  FileWarning,
+  Layers,
+  Link2,
+  Lock,
+  Route,
+  ScanLine,
+  ShieldCheck,
+  UserX,
+  Users,
+} from "lucide-react";
 
-const SOLUTION_ICONS = [LayersIcon, BoltIcon, CopyAlertIcon, ScanIcon, RouteIcon, UsersIcon];
-const PROBLEM_ICONS = [CopyAlertIcon, FileWarningIcon, EditAlertIcon, MaskIcon];
-const TECH_ICONS = [LayersIcon, BrainIcon, LockIcon];
+const SOLUTION_ICONS = [Layers, Clock, Copy, ScanLine, Route, Users];
+const PROBLEM_ICONS = [Copy, FileWarning, FilePenLine, UserX];
+const TECH_ICONS = [Link2, FileSearch, Lock];
 
 function Kicker({ children }: { children: React.ReactNode }) {
   return (
@@ -91,7 +93,7 @@ export default async function HomePage({
               const Icon = PROBLEM_ICONS[i % PROBLEM_ICONS.length];
               return (
                 <Reveal key={item.title} delay={i * 100}>
-                  <div className="group h-full rounded-2xl border border-text/10 bg-background p-6 transition-all hover:-translate-y-1 hover:border-secondary/40 hover:shadow-lg">
+                  <div className="group h-full rounded-2xl border border-primary/10 bg-surface p-6 transition-all hover:-translate-y-1 hover:border-secondary/40 hover:shadow-lg">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-red-600">
                       <Icon className="h-5 w-5" />
                     </div>
@@ -106,7 +108,7 @@ export default async function HomePage({
           <Reveal delay={150}>
             <div className="mt-10 flex flex-col items-start gap-4 rounded-2xl border-l-4 border-secondary bg-accent/40 p-7 sm:flex-row sm:items-center">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-secondary text-white">
-                <BrainIcon className="h-6 w-6" />
+                <AlertTriangle className="h-6 w-6" strokeWidth={1.8} />
               </div>
               <p className="text-sm leading-relaxed text-primary sm:text-base">{t("problem.aiWarning")}</p>
             </div>
@@ -192,7 +194,7 @@ export default async function HomePage({
               const Icon = TECH_ICONS[i % TECH_ICONS.length];
               return (
                 <Reveal key={item.title} delay={i * 120}>
-                  <div className="h-full rounded-2xl bg-background p-8 shadow-sm transition-shadow hover:shadow-lg">
+                  <div className="h-full rounded-2xl bg-surface p-8 shadow-sm transition-shadow hover:shadow-lg">
                     <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-accent">
                       <Icon className="h-6 w-6" />
                     </div>
@@ -250,7 +252,7 @@ export default async function HomePage({
         <div className="relative mx-auto max-w-4xl px-4 py-24 text-center sm:px-6 sm:py-32">
           <Reveal>
             <div className="mx-auto flex h-16 w-16 animate-float items-center justify-center rounded-2xl bg-secondary text-white shadow-2xl shadow-secondary/40">
-              <ShieldIcon className="h-8 w-8" />
+              <ShieldCheck className="h-8 w-8" strokeWidth={1.8} />
             </div>
             <h2 className="mt-8 text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
               {t("finalCta.title")}

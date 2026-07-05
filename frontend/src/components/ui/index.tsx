@@ -58,7 +58,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       <input
         ref={ref}
         id={inputId}
-        className={`w-full rounded-lg border border-text/20 bg-background px-3 py-2 text-sm text-text placeholder:text-text/40 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary ${className}`}
+        className={`w-full rounded-xl border border-text/20 bg-surface px-3 py-2 text-sm text-text placeholder:text-text/40 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary ${className}`}
         {...props}
       />
       {hint && <p className="text-xs text-text/60">{hint}</p>}
@@ -121,7 +121,7 @@ export function Card({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={`rounded-xl border border-text/10 bg-background p-5 shadow-sm ${className}`}
+      className={`rounded-xl border border-text/20 bg-surface p-5 shadow-sm ${className}`}
       {...props}
     />
   );

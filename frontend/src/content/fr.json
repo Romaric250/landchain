@@ -193,12 +193,19 @@
   "howItWorksPage": {
     "title": "Comment fonctionne LandChain",
     "subtitle": "De l'enregistrement au transfert sécurisé, en quatre étapes.",
+    "heroKicker": "Le parcours LandChain",
+    "stepLabel": "Étape {n}",
     "tech": {
       "title": "La technologie, en termes simples",
+      "subtitle": "Une infrastructure sérieuse derrière une expérience simple — aucune connaissance blockchain requise.",
       "blockchain": "Imaginez la blockchain comme un cahier public que personne ne peut modifier en secret. Quand votre parcelle est enregistrée, une empreinte du dossier y est inscrite pour toujours. Si quelqu'un altère le dossier plus tard, l'empreinte ne correspond plus — et tout le monde peut le voir.",
       "ai": "Notre IA examine les documents comme le ferait un expert : cachets, polices, signatures et traces invisibles laissées par les faux générés par IA. Tout élément suspect est transmis à un examinateur humain : aucune machine ne rejette jamais vos documents seule.",
       "privacy": "Vos données personnelles et documents ne vont jamais sur la blockchain. Seules des empreintes anonymes (hachages) y sont stockées."
-    }
+    },
+    "ctaTitle": "Prêt à vérifier votre première parcelle ?",
+    "ctaText": "Effectuez une recherche de base gratuite — ou créez un compte pour les rapports complets.",
+    "ctaVerify": "Vérifier une parcelle",
+    "ctaSignup": "Créer un compte gratuit"
   },
   "pricing": {
     "title": "Des tarifs simples et transparents",
@@ -246,8 +253,12 @@
   "verify": {
     "title": "Vérifier une parcelle",
     "subtitle": "Saisissez une référence de parcelle pour vérifier son statut. Les recherches gratuites affichent uniquement le statut de base.",
+    "heroKicker": "Recherche publique gratuite",
     "placeholder": "ex. LT-2024-DLA-00123",
     "button": "Vérifier la parcelle",
+    "searchHint": "Saisissez une référence ci-dessus pour voir instantanément le statut LandChain.",
+    "resultLabel": "Résultat de vérification",
+    "features": ["Statut de base", "Région & année", "Résultat instantané"],
     "notFound": "Aucune parcelle avec cette référence n'est enregistrée sur LandChain.",
     "foundRegistered": "Cette parcelle est enregistrée sur LandChain.",
     "foundDisputed": "Attention : cette parcelle fait actuellement l'objet d'un litige.",
@@ -261,6 +272,13 @@
   "marketplace": {
     "title": "Terrains à vendre",
     "subtitle": "Chaque annonce a passé la vérification LandChain et n'est pas en litige.",
+    "heroKicker": "Annonces vérifiées uniquement",
+    "listings": "{count} annonces actives",
+    "verifiedOnly": "Chaque parcelle vérifiée et sans litige",
+    "allRegions": "Toutes les régions",
+    "verifiedBadge": "Vérifié",
+    "selectedListing": "Annonce sélectionnée",
+    "listCta": "Publier votre parcelle",
     "empty": "Aucune annonce active pour le moment. Revenez bientôt.",
     "price": "Prix demandé",
     "area": "Superficie",

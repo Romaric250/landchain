@@ -13,7 +13,8 @@
   --lc-primary: #111827; /* Midnight Blue */
   --lc-secondary: #b45309; /* Copper */
   --lc-accent: #f5e6c8; /* Light Sand */
-  --lc-background: #ffffff;
+  --lc-background: #ebe6dc; /* Warm stone — less stark white sitewide */
+  --lc-surface: #faf7f2; /* Card / panel surface */
   --lc-text: #374151; /* Slate */
 }
 
@@ -22,6 +23,7 @@
   --color-secondary: var(--lc-secondary);
   --color-accent: var(--lc-accent);
   --color-background: var(--lc-background);
+  --color-surface: var(--lc-surface);
   --color-text: var(--lc-text);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);

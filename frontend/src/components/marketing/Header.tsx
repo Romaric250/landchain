@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { ShieldCheck } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
 const NAV_ITEMS = [
@@ -43,11 +44,7 @@ function Logo({ light }: { light: boolean }) {
       }`}
     >
       <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-secondary text-background shadow-lg shadow-secondary/30">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M3 21h18" />
-          <path d="M5 21V8l7-5 7 5v13" />
-          <path d="M9 21v-6h6v6" />
-        </svg>
+        <ShieldCheck className="h-[18px] w-[18px]" strokeWidth={2.2} />
       </span>
       {tc("appName")}
     </Link>
@@ -80,7 +77,7 @@ export function Header() {
     <header
       className={`${isHome ? "fixed" : "sticky"} top-0 z-50 w-full transition-all duration-300 ${
         solid
-          ? "border-b border-text/10 bg-background/85 shadow-sm backdrop-blur-xl"
+          ? "border-b border-text/10 bg-surface/90 shadow-sm backdrop-blur-xl"
           : "border-b border-transparent bg-transparent"
       }`}
     >
@@ -162,7 +159,7 @@ export function Header() {
       </div>
 
       {open && (
-        <nav className="border-t border-text/10 bg-background px-4 pb-6 pt-3 lg:hidden" aria-label="Mobile">
+        <nav className="border-t border-text/10 bg-surface px-4 pb-6 pt-3 lg:hidden" aria-label="Mobile">
           <div className="flex flex-col gap-1">
             {NAV_ITEMS.map((item) => (
               <Link
