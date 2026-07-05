@@ -328,6 +328,10 @@
     "verifyEmailChecking": "Vérification de votre e-mail…",
     "verifyEmailSuccess": "E-mail vérifié ! Vous pouvez maintenant vous connecter.",
     "verifyEmailError": "Ce lien de vérification est invalide ou a expiré.",
+    "verifyEmailResendHint": "Connectez-vous avec votre e-mail et mot de passe pour demander un nouveau lien.",
+    "emailNotVerified": "Votre adresse e-mail n'a pas encore été vérifiée. Consultez votre boîte mail ou demandez un nouveau lien.",
+    "resendVerification": "Renvoyer l'e-mail de vérification",
+    "resendVerificationSent": "E-mail de vérification envoyé. Consultez votre boîte mail.",
     "checkInbox": "Compte créé — consultez votre boîte mail pour vérifier votre e-mail.",
     "passwordHint": "Au moins 8 caractères"
   },

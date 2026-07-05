@@ -21,6 +21,7 @@ from app.models.schemas import (
     ForgotPasswordRequest,
     LoginRequest,
     RegisterRequest,
+    ResendVerificationRequest,
     ResetPasswordRequest,
     TokenResponse,
 )
@@ -109,6 +110,31 @@ async def verify_email(token: str):
     return {"message": "Email verified. You can now log in.", "already_verified": result.modified_count == 0}
 
 
+@router.post(
+    "/resend-verification",
+    dependencies=[Depends(rate_limit(5, 3600, "resend_verify"))],
+)
+async def resend_verification(body: ResendVerificationRequest, background: BackgroundTasks):
+    """Resend the email verification link (requires correct password)."""
+    db = get_db()
+    user = await db.users.find_one({"email": body.email.lower()})
+    if user is None or not verify_password(body.password, user["password_hash"]):
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+    if user["status"] == "active":
+        return {"message": "This account is already verified. You can log in."}
+    if user["status"] == "suspended":
+        raise HTTPException(status_code=403, detail="Account suspended — contact support")
+    if user["status"] != "pending_verification":
+        raise HTTPException(status_code=400, detail="Account cannot be verified at this time")
+
+    user_id = str(user["_id"])
+    locale = user.get("locale", "fr")
+    token = create_email_verify_token(user_id)
+    link = f"{settings.FRONTEND_URL}/{locale}/verify-email?token={token}"
+    background.add_task(send_email, user["email"], "verify_email", locale, link=link)
+    return {"message": "Verification email sent. Check your inbox."}
+
+
 @router.post("/login", response_model=TokenResponse, dependencies=[Depends(rate_limit(20, 900, "login"))])
 async def login(body: LoginRequest, response: Response):
     db = get_db()
@@ -116,7 +142,13 @@ async def login(body: LoginRequest, response: Response):
     if user is None or not verify_password(body.password, user["password_hash"]):
         raise HTTPException(status_code=401, detail="Invalid email or password")
     if user["status"] == "pending_verification":
-        raise HTTPException(status_code=403, detail="Please verify your email before logging in")
+        raise HTTPException(
+            status_code=403,
+            detail={
+                "code": "email_not_verified",
+                "message": "Please verify your email before logging in",
+            },
+        )
     if user["status"] == "suspended":
         raise HTTPException(status_code=403, detail="Account suspended — contact support")
 

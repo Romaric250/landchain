@@ -94,3 +94,10 @@ export function errorMessage(err: unknown): string {
   }
   return err instanceof Error ? err.message : "Something went wrong";
 }
+
+export function apiErrorCode(err: unknown): string | null {
+  if (err instanceof ApiError && err.detail && typeof err.detail === "object" && "code" in err.detail) {
+    return String((err.detail as { code: unknown }).code);
+  }
+  return null;
+}

@@ -43,7 +43,17 @@ function VerifyEmailInner() {
             </p>
           </div>
         )}
-        {state === "error" && <Alert tone="error">{t("verifyEmailError")}</Alert>}
+        {state === "error" && (
+          <div className="space-y-4">
+            <Alert tone="error">{t("verifyEmailError")}</Alert>
+            <p className="text-center text-sm text-text/70">
+              {t("verifyEmailResendHint")}{" "}
+              <Link href="/login" className="font-medium text-secondary hover:underline">
+                {tc("login")}
+              </Link>
+            </p>
+          </div>
+        )}
       </div>
     </>
   );

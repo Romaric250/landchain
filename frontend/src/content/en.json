@@ -328,6 +328,10 @@
     "verifyEmailChecking": "Verifying your email…",
     "verifyEmailSuccess": "Email verified! You can now log in.",
     "verifyEmailError": "This verification link is invalid or has expired.",
+    "verifyEmailResendHint": "Log in with your email and password to request a new verification link.",
+    "emailNotVerified": "Your email address has not been verified yet. Check your inbox or request a new link.",
+    "resendVerification": "Resend verification email",
+    "resendVerificationSent": "Verification email sent. Check your inbox.",
     "checkInbox": "Account created — check your inbox to verify your email.",
     "passwordHint": "At least 8 characters"
   },

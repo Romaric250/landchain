@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/lib/auth";
-import { errorMessage } from "@/lib/api-client";
+import { api, apiErrorCode, errorMessage } from "@/lib/api-client";
 import { Alert, Button, Input, Spinner } from "@/components/ui";
 
 export default function LoginPage() {
@@ -14,20 +14,49 @@ export default function LoginPage() {
   const router = useRouter();
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
+  const [resending, setResending] = useState(false);
   const [error, setError] = useState("");
+  const [emailNotVerified, setEmailNotVerified] = useState(false);
+  const [resendSuccess, setResendSuccess] = useState("");
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError("");
+    setEmailNotVerified(false);
+    setResendSuccess("");
     try {
       const user = await login(form.email, form.password);
       router.push(
         user.role === "admin" || user.role === "super_admin" ? "/admin" : "/dashboard",
       );
     } catch (err) {
-      setError(errorMessage(err));
+      if (apiErrorCode(err) === "email_not_verified") {
+        setEmailNotVerified(true);
+        setError("");
+      } else {
+        setError(errorMessage(err));
+      }
       setLoading(false);
+    }
+  }
+
+  async function resendVerification() {
+    setResending(true);
+    setResendSuccess("");
+    setError("");
+    try {
+      await api("/auth/resend-verification", {
+        method: "POST",
+        body: { email: form.email, password: form.password },
+        auth: false,
+      });
+      setResendSuccess(t("resendVerificationSent"));
+      setEmailNotVerified(false);
+    } catch (err) {
+      setError(errorMessage(err));
+    } finally {
+      setResending(false);
     }
   }
 
@@ -57,6 +86,21 @@ export default function LoginPage() {
             {t("forgotPassword")}
           </Link>
         </div>
+        {emailNotVerified && (
+          <Alert tone="warning">
+            <p>{t("emailNotVerified")}</p>
+            <Button
+              type="button"
+              variant="secondary"
+              className="mt-3 w-full"
+              disabled={resending}
+              onClick={resendVerification}
+            >
+              {resending ? <Spinner /> : t("resendVerification")}
+            </Button>
+          </Alert>
+        )}
+        {resendSuccess && <Alert tone="success">{resendSuccess}</Alert>}
         {error && <Alert tone="error">{error}</Alert>}
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? <Spinner /> : tc("login")}
