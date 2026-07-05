@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { api, errorMessage } from "@/lib/api-client";
-import { Alert, Badge, Button, Card, EmptyState, PageTitle, Select, Spinner, Textarea, statusColor } from "@/components/ui";
+import { Alert, Badge, Button, Card, EmptyState, ListRowsSkeleton, PageTitle, Select, Spinner, Textarea, statusColor } from "@/components/ui";
 
 interface AdminDispute {
   id: string;
@@ -54,7 +54,7 @@ export default function AdminDisputesPage() {
       {error && <div className="mb-4"><Alert tone="error">{error}</Alert></div>}
 
       {items === null ? (
-        <div className="flex justify-center py-20"><Spinner className="h-8 w-8" /></div>
+        <ListRowsSkeleton count={4} />
       ) : items.length === 0 ? (
         <EmptyState>No disputes.</EmptyState>
       ) : (

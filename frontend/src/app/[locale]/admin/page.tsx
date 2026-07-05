@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { api } from "@/lib/api-client";
-import { Card, PageTitle, Spinner } from "@/components/ui";
+import { Card, MetricsGridSkeleton, PageTitle } from "@/components/ui";
 
 interface Metrics {
   total_users: number;
@@ -27,8 +27,9 @@ export default function AdminDashboard() {
 
   if (!metrics) {
     return (
-      <div className="flex justify-center py-20">
-        <Spinner className="h-8 w-8" />
+      <div className="mx-auto max-w-6xl">
+        <PageTitle title="Dashboard" />
+        <MetricsGridSkeleton />
       </div>
     );
   }

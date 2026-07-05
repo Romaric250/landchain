@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { api, errorMessage } from "@/lib/api-client";
 import type { Dispute } from "@/lib/types";
-import { Alert, Badge, Button, Card, EmptyState, Input, PageTitle, Spinner, Textarea, statusColor } from "@/components/ui";
+import { Alert, Badge, Button, Card, EmptyState, Input, ListRowsSkeleton, PageTitle, Spinner, Textarea, statusColor } from "@/components/ui";
 
 export default function DisputesPage() {
   const t = useTranslations("disputes");
@@ -68,9 +68,7 @@ export default function DisputesPage() {
       </Card>
 
       {disputes === null ? (
-        <div className="flex justify-center py-10">
-          <Spinner className="h-8 w-8" />
-        </div>
+        <ListRowsSkeleton count={3} />
       ) : disputes.length === 0 ? (
         <EmptyState>{t("empty")}</EmptyState>
       ) : (

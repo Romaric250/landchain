@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { api, errorMessage } from "@/lib/api-client";
 import type { Parcel } from "@/lib/types";
-import { Alert, Badge, Button, Card, Input, PageTitle, Spinner, statusColor } from "@/components/ui";
+import { Alert, Badge, Button, Card, Input, PageTitle, ParcelDetailSkeleton, Spinner, statusColor } from "@/components/ui";
 
 const ParcelMap = dynamic(() => import("@/components/map/ParcelMap"), { ssr: false });
 
@@ -73,8 +73,14 @@ export default function ParcelDetailPage({
 
   if (!parcel) {
     return (
-      <div className="flex justify-center py-20">
-        {error ? <Alert tone="error">{error}</Alert> : <Spinner className="h-8 w-8" />}
+      <div className="mx-auto max-w-5xl">
+        {error ? (
+          <div className="py-10">
+            <Alert tone="error">{error}</Alert>
+          </div>
+        ) : (
+          <ParcelDetailSkeleton />
+        )}
       </div>
     );
   }

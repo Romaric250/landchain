@@ -75,11 +75,11 @@ export default async function TeamPage({
                       </div>
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/30 to-transparent" />
-                    {member.featured && (
+                    {/* {member.featured && (
                       <span className="absolute left-4 top-4 rounded-full bg-secondary px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-lg">
                         {t("featuredBadge")}
                       </span>
-                    )}
+                    )} */}
                     <div className="absolute bottom-0 left-0 right-0 p-6">
                       <h2 className="text-xl font-extrabold text-white">{member.name}</h2>
                       <p className="mt-0.5 text-sm font-semibold text-accent">{member.role}</p>

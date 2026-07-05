@@ -16,7 +16,7 @@ import { api, errorMessage } from "@/lib/api-client";
 import type { QuickVerifyResult } from "@/lib/types";
 import { PageHero } from "@/components/marketing/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
-import { Alert, Badge, Button, Spinner, statusColor } from "@/components/ui";
+import { Alert, Badge, Button, Spinner, VerifyResultSkeleton, statusColor } from "@/components/ui";
 
 export default function VerifyPage() {
   const t = useTranslations("verify");
@@ -124,7 +124,13 @@ export default function VerifyPage() {
             </Reveal>
           )}
 
-          {result && (
+          {loading && (
+            <Reveal>
+              <VerifyResultSkeleton />
+            </Reveal>
+          )}
+
+          {result && !loading && (
             <Reveal>
               <div className="overflow-hidden rounded-2xl border border-primary/10 bg-surface shadow-xl shadow-primary/5">
                 <div className="border-b border-primary/10 bg-primary px-6 py-5 sm:px-8">
@@ -205,7 +211,7 @@ export default function VerifyPage() {
             </Reveal>
           )}
 
-          {!result && !error && (
+          {!result && !error && !loading && (
             <Reveal delay={100}>
               <div className="rounded-2xl border border-dashed border-primary/15 bg-surface/80 p-10 text-center">
                 <Search className="mx-auto h-10 w-10 text-text/25" strokeWidth={1.5} />

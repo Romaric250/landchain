@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { api } from "@/lib/api-client";
 import type { Parcel } from "@/lib/types";
+import { MarketplacePreviewSkeleton } from "@/components/ui";
 
 const LAND_IMAGES = [
   "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=70",
@@ -27,15 +28,26 @@ interface CardData {
   sample: boolean;
 }
 
+function toCards(items: typeof SAMPLES): CardData[] {
+  return items.map((s) => ({
+    key: s.ref,
+    ref: s.ref,
+    region: s.region,
+    price: s.price,
+    area: s.area,
+    sample: true,
+  }));
+}
+
 export function MarketplacePreview() {
   const t = useTranslations("home.marketplacePreview");
-  const [cards, setCards] = useState<CardData[]>(
-    SAMPLES.map((s) => ({ key: s.ref, ref: s.ref, region: s.region, price: s.price, area: s.area, sample: true })),
-  );
+  const [cards, setCards] = useState<CardData[] | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
     api<{ items: Parcel[] }>("/parcels?for_sale=true&limit=3", { auth: false })
       .then((data) => {
+        if (cancelled) return;
         if (data.items.length > 0) {
           const real = data.items.map((p) => ({
             key: p.id,
@@ -45,12 +57,27 @@ export function MarketplacePreview() {
             area: p.area_sqm ?? null,
             sample: false,
           }));
-          // Pad with samples so the row always feels full
-          setCards([...real, ...SAMPLES.slice(real.length).map((s) => ({ key: s.ref, ref: s.ref, region: s.region, price: s.price, area: s.area, sample: true }))].slice(0, 3));
+          setCards(
+            [
+              ...real,
+              ...toCards(SAMPLES.slice(real.length)),
+            ].slice(0, 3),
+          );
+        } else {
+          setCards(toCards(SAMPLES));
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        if (!cancelled) setCards(toCards(SAMPLES));
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
+
+  if (cards === null) {
+    return <MarketplacePreviewSkeleton />;
+  }
 
   return (
     <div className="grid gap-6 md:grid-cols-3">

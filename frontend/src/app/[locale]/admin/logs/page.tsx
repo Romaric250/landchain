@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { api, errorMessage } from "@/lib/api-client";
-import { Alert, EmptyState, PageTitle, Spinner } from "@/components/ui";
+import { Alert, EmptyState, ListRowsSkeleton, PageTitle } from "@/components/ui";
 
 interface AdminLog {
   id: string;
@@ -30,7 +30,7 @@ export default function AdminLogsPage() {
       {error && <div className="mb-4"><Alert tone="error">{error}</Alert></div>}
 
       {items === null ? (
-        <div className="flex justify-center py-20"><Spinner className="h-8 w-8" /></div>
+        <ListRowsSkeleton count={6} />
       ) : items.length === 0 ? (
         <EmptyState>No actions logged yet.</EmptyState>
       ) : (

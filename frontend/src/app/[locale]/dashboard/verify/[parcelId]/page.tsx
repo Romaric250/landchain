@@ -4,7 +4,7 @@ import { use, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { api, ApiError, errorMessage } from "@/lib/api-client";
-import { Alert, Badge, Card, PageTitle, Spinner, statusColor } from "@/components/ui";
+import { Alert, Badge, Card, PageTitle, VerifyResultSkeleton, statusColor } from "@/components/ui";
 
 interface Report {
   parcel: { parcel_reference: string; region: string; status: string };
@@ -53,8 +53,17 @@ export default function VerificationReportPage({
 
   if (!report) {
     return (
-      <div className="flex justify-center py-20">
-        {error ? <Alert tone="error">{error}</Alert> : <Spinner className="h-8 w-8" />}
+      <div className="mx-auto max-w-3xl">
+        {error ? (
+          <div className="py-10">
+            <Alert tone="error">{error}</Alert>
+          </div>
+        ) : (
+          <>
+            <PageTitle title={t("title")} />
+            <VerifyResultSkeleton />
+          </>
+        )}
       </div>
     );
   }

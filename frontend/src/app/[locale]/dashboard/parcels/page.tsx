@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { api } from "@/lib/api-client";
 import type { Parcel } from "@/lib/types";
-import { Badge, Button, Card, EmptyState, PageTitle, Spinner, statusColor } from "@/components/ui";
+import { Badge, Button, Card, CardGridSkeleton, EmptyState, PageTitle, statusColor } from "@/components/ui";
 
 export default function MyParcelsPage() {
   const t = useTranslations("dashboard");
@@ -28,9 +28,7 @@ export default function MyParcelsPage() {
       </div>
 
       {parcels === null ? (
-        <div className="flex justify-center py-20">
-          <Spinner className="h-8 w-8" />
-        </div>
+        <CardGridSkeleton count={3} />
       ) : parcels.length === 0 ? (
         <EmptyState>{t("noParcels")}</EmptyState>
       ) : (

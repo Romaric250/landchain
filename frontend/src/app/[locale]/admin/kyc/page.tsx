@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { api, errorMessage } from "@/lib/api-client";
-import { Alert, Badge, Button, Card, EmptyState, PageTitle, Spinner, Textarea } from "@/components/ui";
+import { Alert, Badge, Button, Card, EmptyState, ListRowsSkeleton, PageTitle, Spinner, Textarea } from "@/components/ui";
 
 interface KycSubmission {
   id: string;
@@ -53,7 +53,7 @@ export default function AdminKycPage() {
       {error && <div className="mb-4"><Alert tone="error">{error}</Alert></div>}
 
       {items === null ? (
-        <div className="flex justify-center py-20"><Spinner className="h-8 w-8" /></div>
+        <ListRowsSkeleton count={4} />
       ) : items.length === 0 ? (
         <EmptyState>Queue is empty 🎉</EmptyState>
       ) : (

@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { api } from "@/lib/api-client";
 import type { PlanInfo } from "@/lib/types";
-import { Badge } from "@/components/ui";
+import { Badge, PricingCardsSkeleton } from "@/components/ui";
 
 interface PlansResponse {
   subscription_plans: PlanInfo[];
@@ -54,8 +54,11 @@ export default function PricingPage() {
         </div>
 
         {/* Paid plans */}
-        {(["monthly", "quarterly", "annual"] as const).map((plan) => {
-          const info = plans?.subscription_plans.find((p) => p.plan === plan);
+        {plans === null ? (
+          <PricingCardsSkeleton />
+        ) : (
+          (["monthly", "quarterly", "annual"] as const).map((plan) => {
+          const info = plans.subscription_plans.find((p) => p.plan === plan);
           const highlighted = plan === "quarterly";
           return (
             <div
@@ -94,7 +97,8 @@ export default function PricingPage() {
               </Link>
             </div>
           );
-        })}
+        })
+        )}
       </div>
 
       <p className="mt-6 text-center text-sm text-text/60">{t("manualRenewal")}</p>
