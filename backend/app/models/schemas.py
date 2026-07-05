@@ -16,7 +16,7 @@ class RegisterRequest(BaseModel):
     email: EmailStr
     phone: str = Field(min_length=6, max_length=20)
     password: str = Field(min_length=8, max_length=128)
-    locale: Locale = "en"
+    locale: Locale = "fr"
 
 
 class LoginRequest(BaseModel):
@@ -117,7 +117,7 @@ class DisputeUpdateRequest(BaseModel):
 class WaitlistRequest(BaseModel):
     email: EmailStr
     name: str | None = Field(default=None, max_length=120)
-    locale: Locale = "en"
+    locale: Locale = "fr"
 
 
 class ContactRequest(BaseModel):

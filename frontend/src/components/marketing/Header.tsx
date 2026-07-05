@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
-import { ShieldCheck } from "lucide-react";
+import { LandChainLogo } from "./LandChainLogo";
 import { useAuth } from "@/lib/auth";
 
 const NAV_ITEMS = [
@@ -14,40 +14,58 @@ const NAV_ITEMS = [
   { href: "/pricing", key: "pricing" },
 ] as const;
 
+const LOCALES = ["fr", "en"] as const;
+
 export function LocaleSwitcher({ light = false }: { light?: boolean }) {
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
-  const other = locale === "en" ? "fr" : "en";
+
   return (
-    <button
-      onClick={() => router.replace(pathname, { locale: other })}
-      className={`rounded-md border px-2.5 py-1 text-xs font-bold uppercase tracking-wide transition-colors cursor-pointer ${
-        light
-          ? "border-white/30 text-white hover:bg-white/10"
-          : "border-text/20 text-text hover:bg-accent/50"
+    <div
+      className={`inline-flex overflow-hidden rounded-md border text-xs font-bold uppercase tracking-wide ${
+        light ? "border-white/30" : "border-text/20"
       }`}
+      role="group"
       aria-label="Switch language"
     >
-      {other}
-    </button>
+      {LOCALES.map((l) => {
+        const active = locale === l;
+        return (
+          <button
+            key={l}
+            type="button"
+            onClick={() => {
+              if (!active) router.replace(pathname, { locale: l });
+            }}
+            className={`px-2.5 py-1 transition-colors cursor-pointer ${
+              active
+                ? light
+                  ? "bg-white text-primary"
+                  : "bg-primary text-background"
+                : light
+                  ? "text-white/70 hover:bg-white/10"
+                  : "text-text/60 hover:bg-accent/50"
+            }`}
+            aria-current={active ? "true" : undefined}
+          >
+            {l}
+          </button>
+        );
+      })}
+    </div>
   );
 }
 
 function Logo({ light }: { light: boolean }) {
-  const tc = useTranslations("common");
   return (
-    <Link
+    <LandChainLogo
       href="/"
-      className={`flex items-center gap-2.5 text-lg font-extrabold tracking-tight ${
-        light ? "text-white" : "text-primary"
-      }`}
-    >
-      <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-secondary text-background shadow-lg shadow-secondary/30">
-        <ShieldCheck className="h-[18px] w-[18px]" strokeWidth={2.2} />
-      </span>
-      {tc("appName")}
-    </Link>
+      size={36}
+      showName
+      priority
+      nameClassName={`text-lg font-extrabold tracking-tight ${light ? "text-white" : "text-primary"}`}
+    />
   );
 }
 

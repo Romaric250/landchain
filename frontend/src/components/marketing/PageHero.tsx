@@ -2,7 +2,7 @@ import { Reveal } from "@/components/ui/Reveal";
 
 interface PageHeroProps {
   kicker?: string;
-  title: string;
+  title: React.ReactNode;
   subtitle?: string;
   image?: string;
   children?: React.ReactNode;
