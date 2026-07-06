@@ -30,7 +30,7 @@ Swagger docs: http://localhost:8000/docs (development only).
 
 A super admin account is seeded at first startup from `SUPER_ADMIN_EMAIL` / `SUPER_ADMIN_PASSWORD`.
 
-## Docker
+## Docker (local test)
 
 ```bash
 cd backend
@@ -38,9 +38,22 @@ cp .env.example .env
 docker compose up --build
 ```
 
-Starts the API (port 8000), a scheduled worker, MongoDB 7, and Redis 7.
+Starts the API on **port 8095**, plus worker, MongoDB 7, and Redis 7.
 
-## Dev-mode integrations
+- Local API: http://localhost:8095
+- Swagger (development only): http://localhost:8095/docs — requires `ENV=development` in `.env`
+
+## Production deploy (Contabo VPS)
+
+**Full step-by-step guide:** [DEPLOY.md](./DEPLOY.md)
+
+Summary:
+
+- Domain: `https://api.lanchain.land` → your Contabo server IP (DNS A record)
+- SSH: `ssh root@YOUR_SERVER_IP` (Contabo account panel: [my.contabo.com](https://my.contabo.com))
+- Run `docker compose up -d` on the server, Nginx + Certbot for HTTPS
+- Frontend on Vercel → `NEXT_PUBLIC_API_BASE_URL=https://api.lanchain.land`
+
 
 When credentials are not configured, integrations degrade gracefully so every
 flow is testable end to end:
