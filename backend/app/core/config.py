@@ -3,6 +3,13 @@ from typing import Literal
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+# Always allowed — merged with CORS_ORIGINS from .env
+DEFAULT_CORS_ORIGINS: tuple[str, ...] = (
+    "http://localhost:3000",
+    "https://lanchain.land",
+    "https://www.lanchain.land",
+)
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
@@ -10,8 +17,8 @@ class Settings(BaseSettings):
     # Core
     ENV: Literal["development", "production"] = "development"
     APP_NAME: str = "LandChain API"
-    FRONTEND_URL: str = "http://localhost:3000"
-    CORS_ORIGINS: str = "http://localhost:3000"
+    FRONTEND_URL: str = "https://lanchain.land"
+    CORS_ORIGINS: str = "http://localhost:3000,https://lanchain.land,https://www.lanchain.land"
 
     # Auth / JWT
     JWT_SECRET: str = "dev-only-secret-change-me-in-production-0123456789"
@@ -67,7 +74,9 @@ class Settings(BaseSettings):
 
     @property
     def cors_origin_list(self) -> list[str]:
-        return [o.strip() for o in self.CORS_ORIGINS.split(",") if o.strip()]
+        from_env = [o.strip() for o in self.CORS_ORIGINS.split(",") if o.strip()]
+        # Preserve order, dedupe — production origins are always included
+        return list(dict.fromkeys([*DEFAULT_CORS_ORIGINS, *from_env]))
 
 
 @lru_cache

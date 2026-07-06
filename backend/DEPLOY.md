@@ -350,7 +350,7 @@ Paste:
 ```nginx
 server {
     listen 80;
-    server_name api.lanchain.land YOUR_SERVER_IP;
+    server_name api.lanchain.land 164.68.127.137;
 
     location / {
         proxy_pass http://127.0.0.1:8095;
