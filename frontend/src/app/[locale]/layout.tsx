@@ -7,6 +7,7 @@ import { routing } from "@/i18n/routing";
 import { buildSiteMetadata } from "@/lib/site-metadata";
 import { AuthProvider } from "@/lib/auth";
 import { ThemeProvider } from "@/lib/theme";
+import { LocalePersistence } from "@/components/LocalePersistence";
 import "../globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -49,6 +50,7 @@ export default async function LocaleLayout({
     <html lang={locale} className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="flex min-h-screen flex-col">
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <LocalePersistence />
           <ThemeProvider>
             <AuthProvider>{children}</AuthProvider>
           </ThemeProvider>

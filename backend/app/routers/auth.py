@@ -205,7 +205,7 @@ async def forgot_password(body: ForgotPasswordRequest, background: BackgroundTas
     user = await db.users.find_one({"email": body.email.lower()})
     if user:
         token = create_password_reset_token(str(user["_id"]))
-        locale = user.get("locale", "en")
+        locale = user.get("locale", "fr")
         link = f"{settings.FRONTEND_URL}/{locale}/reset-password?token={token}"
         background.add_task(send_email, user["email"], "password_reset", locale, link=link)
     # Same response either way — don't leak account existence

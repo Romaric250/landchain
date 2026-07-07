@@ -11,5 +11,5 @@ email-validator>=2.2
 apscheduler>=3.10
 
 # Optional integrations (uncomment as needed)
-# web3>=7.0            # Polygon blockchain writes (§15)
+web3>=7.0             # Polygon blockchain writes (§15)
 # redis>=5.0           # Redis-backed rate limiting (§10.2)

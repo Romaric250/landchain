@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/lib/auth";
 import { api, apiErrorCode, errorMessage } from "@/lib/api-client";
-import { Alert, Button, Input, Spinner } from "@/components/ui";
+import { Alert, Button, Input, PasswordInput, Spinner } from "@/components/ui";
 
 export default function LoginPage() {
   const t = useTranslations("auth");
@@ -73,10 +73,11 @@ export default function LoginPage() {
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
-        <Input
+        <PasswordInput
           name="password"
-          type="password"
           label={tc("password")}
+          showLabel={t("showPassword")}
+          hideLabel={t("hidePassword")}
           required
           value={form.password}
           onChange={(e) => setForm({ ...form, password: e.target.value })}

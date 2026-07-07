@@ -44,7 +44,8 @@
     "contact": "Contact",
     "verify": "Verify a parcel",
     "marketplace": "Marketplace",
-    "map": "Map"
+    "map": "Map",
+    "demo": "Demo"
   },
   "footer": {
     "tagline": "Ending land fraud in Cameroon with blockchain and AI.",
@@ -64,6 +65,7 @@
       "titleAccent": "Verify before you pay.",
       "subtitle": "Every year, thousands of Cameroonians lose lifetime savings to forged titles, double sales and identity fraud. LandChain makes every land record tamper-evident — and verifiable in seconds.",
       "ctaPrimary": "Verify a parcel now",
+      "ctaDemo": "See demo",
       "ctaSecondary": "Explore the marketplace",
       "scroll": "Scroll to explore",
       "stats": [
@@ -343,7 +345,9 @@
     "resendVerification": "Resend verification email",
     "resendVerificationSent": "Verification email sent. Check your inbox.",
     "checkInbox": "Account created — check your inbox to verify your email.",
-    "passwordHint": "At least 8 characters"
+    "passwordHint": "At least 8 characters",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "kyc": {
     "title": "Identity verification (KYC)",
@@ -358,7 +362,23 @@
     "pending": "Under review",
     "verified": "Verified",
     "rejected": "Rejected — you may resubmit",
-    "submitted": "Submitted! Our team will review your documents shortly."
+    "submitted": "Submitted! Our team will review your documents shortly.",
+    "aiAnalyzing": "Gemini AI is checking your ID and selfie…",
+    "aiComplete": "AI pre-check complete",
+    "aiFaceMatch": "Face match",
+    "aiDocCheck": "ID document check",
+    "aiHumanNote": "AI assists our review — a human always makes the final KYC decision."
+  },
+  "aiAnalysis": {
+    "title": "AI document analysis",
+    "analyzing": "Analyzing with Gemini AI…",
+    "authentic": "Authentic",
+    "suspicious": "Suspicious",
+    "fraudulent": "Likely fake",
+    "confidence": "{score}% confidence",
+    "humanReview": "Flagged for human review",
+    "humanNote": "AI never rejects documents on its own — suspicious results are reviewed by our team.",
+    "reasons": "What we detected"
   },
   "upload": {
     "uploaded": "Uploaded",
@@ -408,7 +428,15 @@
     "region": "Region",
     "area": "Area (m²)",
     "location": "Location",
-    "mapHint": "Click the map to drop a pin on your parcel.",
+    "mapHint": "Draw the parcel boundary on the map (minimum 3 points).",
+    "draw": {
+      "hint": "Click the map to place boundary points. Finish when you have at least 3 corners.",
+      "done": "Boundary drawn — click Redraw to change it.",
+      "undo": "Undo point",
+      "clear": "Clear",
+      "finish": "Finish boundary",
+      "redraw": "Redraw"
+    },
     "documents": "Supporting documents",
     "documentUrl": "Document URL",
     "docType": "Document type",
@@ -433,7 +461,15 @@
       "notaryEmail": "Notary email (optional)",
       "transferCta": "Initiate transfer",
       "raiseDispute": "Raise a dispute",
-      "fullReport": "Full verification report"
+      "fullReport": "Full verification report",
+      "aiAnalyzing": "Gemini AI is analyzing your documents…",
+      "aiHumanNote": "AI assists verification — our team reviews anything flagged as suspicious or fake.",
+      "listForSaleModal": "List for sale",
+      "transferModal": "Transfer ownership",
+      "disputeModal": "Raise a dispute",
+      "confirmTransfer": "Confirm transfer",
+      "confirmList": "Continue to payment",
+      "disputeDescription": "Describe the issue"
     }
   },
   "verification": {
@@ -471,8 +507,29 @@
   },
   "mapPage": {
     "title": "Parcel map",
-    "subtitle": "Browse registered parcels. For-sale parcels are highlighted.",
-    "legend": { "registered": "Registered", "forSale": "For sale", "disputed": "Disputed" }
+    "subtitle": "Browse registered parcels across Cameroon.",
+    "publicSubtitle": "Explore land records on the map — view-only, no login required.",
+    "viewOnly": "View-only map — log in to register or verify parcels.",
+    "forSale": "For sale",
+    "legend": { "registered": "Registered", "forSale": "For sale", "disputed": "Disputed / flagged" },
+    "detail": {
+      "region": "Region",
+      "area": "Area",
+      "price": "Asking price",
+      "loginHint": "Create an account to verify this parcel or contact the owner."
+    }
+  },
+  "demo": {
+    "title": "LandChain in 60 seconds",
+    "subtitle": "See how blockchain + AI verification protects land buyers in Cameroon.",
+    "steps": [
+      { "title": "Explore the map", "text": "Browse registered parcels — for sale, disputed, and verified land across the country." },
+      { "title": "AI checks documents", "text": "Upload a land title or ID — Gemini AI detects forgeries and flags suspicious documents." },
+      { "title": "Blockchain anchor", "text": "Every verified record is hashed and anchored on Polygon for tamper-proof proof." },
+      { "title": "Verify before you pay", "text": "Run a free lookup or get a full verification report before any transaction." }
+    ],
+    "ctaMap": "Open the map",
+    "ctaVerify": "Try verification"
   },
   "adminPanel": {
     "title": "Admin",

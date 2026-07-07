@@ -44,7 +44,8 @@
     "contact": "Contact",
     "verify": "Vérifier une parcelle",
     "marketplace": "Marché",
-    "map": "Carte"
+    "map": "Carte",
+    "demo": "Démo"
   },
   "footer": {
     "tagline": "Mettre fin à la fraude foncière au Cameroun grâce à la blockchain et l'IA.",
@@ -64,6 +65,7 @@
       "titleAccent": "Vérifiez avant de payer.",
       "subtitle": "Chaque année, des milliers de Camerounais perdent les économies d'une vie à cause de titres falsifiés, de doubles ventes et de fraudes à l'identité. LandChain rend chaque registre foncier infalsifiable — et vérifiable en quelques secondes.",
       "ctaPrimary": "Vérifier une parcelle",
+      "ctaDemo": "Voir la démo",
       "ctaSecondary": "Explorer le marché",
       "scroll": "Faites défiler pour découvrir",
       "stats": [
@@ -343,7 +345,9 @@
     "resendVerification": "Renvoyer l'e-mail de vérification",
     "resendVerificationSent": "E-mail de vérification envoyé. Consultez votre boîte mail.",
     "checkInbox": "Compte créé — consultez votre boîte mail pour vérifier votre e-mail.",
-    "passwordHint": "Au moins 8 caractères"
+    "passwordHint": "Au moins 8 caractères",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe"
   },
   "kyc": {
     "title": "Vérification d'identité (KYC)",
@@ -358,7 +362,23 @@
     "pending": "En cours d'examen",
     "verified": "Vérifié",
     "rejected": "Rejeté — vous pouvez soumettre à nouveau",
-    "submitted": "Soumis ! Notre équipe examinera vos documents sous peu."
+    "submitted": "Soumis ! Notre équipe examinera vos documents sous peu.",
+    "aiAnalyzing": "Gemini IA analyse votre pièce d'identité et votre selfie…",
+    "aiComplete": "Pré-contrôle IA terminé",
+    "aiFaceMatch": "Correspondance faciale",
+    "aiDocCheck": "Authenticité de la pièce d'identité",
+    "aiHumanNote": "L'IA assiste notre examen — un humain prend toujours la décision finale KYC."
+  },
+  "aiAnalysis": {
+    "title": "Analyse IA du document",
+    "analyzing": "Analyse en cours avec Gemini IA…",
+    "authentic": "Authentique",
+    "suspicious": "Suspect",
+    "fraudulent": "Probablement faux",
+    "confidence": "{score} % de confiance",
+    "humanReview": "Signalé pour examen humain",
+    "humanNote": "L'IA ne rejette jamais seule un document — les cas suspects sont examinés par notre équipe.",
+    "reasons": "Ce que nous avons détecté"
   },
   "upload": {
     "uploaded": "Téléversé",
@@ -408,7 +428,15 @@
     "region": "Région",
     "area": "Superficie (m²)",
     "location": "Emplacement",
-    "mapHint": "Cliquez sur la carte pour placer un repère sur votre parcelle.",
+    "mapHint": "Dessinez le contour de la parcelle sur la carte (minimum 3 points).",
+    "draw": {
+      "hint": "Cliquez sur la carte pour placer les sommets. Terminez avec au moins 3 points.",
+      "done": "Contour tracé — cliquez sur Redessiner pour modifier.",
+      "undo": "Annuler le point",
+      "clear": "Effacer",
+      "finish": "Terminer le contour",
+      "redraw": "Redessiner"
+    },
     "documents": "Documents justificatifs",
     "documentUrl": "URL du document",
     "docType": "Type de document",
@@ -433,7 +461,15 @@
       "notaryEmail": "E-mail du notaire (optionnel)",
       "transferCta": "Initier le transfert",
       "raiseDispute": "Signaler un litige",
-      "fullReport": "Rapport de vérification complet"
+      "fullReport": "Rapport de vérification complet",
+      "aiAnalyzing": "Gemini IA analyse vos documents…",
+      "aiHumanNote": "L'IA assiste la vérification — notre équipe examine tout document signalé comme suspect ou faux.",
+      "listForSaleModal": "Mettre en vente",
+      "transferModal": "Transférer la propriété",
+      "disputeModal": "Signaler un litige",
+      "confirmTransfer": "Confirmer le transfert",
+      "confirmList": "Continuer vers le paiement",
+      "disputeDescription": "Décrivez le problème"
     }
   },
   "verification": {
@@ -471,8 +507,29 @@
   },
   "mapPage": {
     "title": "Carte des parcelles",
-    "subtitle": "Parcourez les parcelles enregistrées. Les parcelles à vendre sont mises en évidence.",
-    "legend": { "registered": "Enregistrée", "forSale": "À vendre", "disputed": "En litige" }
+    "subtitle": "Parcourez les parcelles enregistrées à travers le Cameroun.",
+    "publicSubtitle": "Explorez les registres fonciers sur la carte — consultation seule, sans connexion.",
+    "viewOnly": "Carte en consultation seule — connectez-vous pour enregistrer ou vérifier.",
+    "forSale": "À vendre",
+    "legend": { "registered": "Enregistrée", "forSale": "À vendre", "disputed": "Litige / signalée" },
+    "detail": {
+      "region": "Région",
+      "area": "Superficie",
+      "price": "Prix demandé",
+      "loginHint": "Créez un compte pour vérifier cette parcelle ou contacter le propriétaire."
+    }
+  },
+  "demo": {
+    "title": "LandChain en 60 secondes",
+    "subtitle": "Découvrez comment la blockchain et l'IA protègent les acheteurs de terrains au Cameroun.",
+    "steps": [
+      { "title": "Explorez la carte", "text": "Parcourez les parcelles enregistrées — à vendre, en litige et vérifiées." },
+      { "title": "L'IA vérifie les documents", "text": "Téléversez un titre ou une pièce d'identité — Gemini détecte les falsifications." },
+      { "title": "Ancrage blockchain", "text": "Chaque dossier vérifié est haché et ancré sur Polygon." },
+      { "title": "Vérifiez avant de payer", "text": "Consultation gratuite ou rapport complet avant toute transaction." }
+    ],
+    "ctaMap": "Ouvrir la carte",
+    "ctaVerify": "Essayer la vérification"
   },
   "adminPanel": {
     "title": "Admin",

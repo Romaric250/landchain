@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { api, errorMessage } from "@/lib/api-client";
-import { Alert, Button, Input, Spinner } from "@/components/ui";
+import { Alert, Button, PasswordInput, Spinner } from "@/components/ui";
 
 function ResetPasswordForm() {
   const t = useTranslations("auth");
@@ -49,11 +49,12 @@ function ResetPasswordForm() {
         </div>
       ) : (
         <form onSubmit={submit} className="mt-6 space-y-4">
-          <Input
+          <PasswordInput
             name="password"
-            type="password"
             label={t("newPassword")}
             hint={t("passwordHint")}
+            showLabel={t("showPassword")}
+            hideLabel={t("hidePassword")}
             required
             minLength={8}
             value={password}

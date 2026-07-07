@@ -68,6 +68,7 @@ export interface DocumentRecord {
     score: number;
     verdict: "authentic" | "suspicious" | "fraudulent";
     flagged_reasons: string[];
+    user_message?: string;
   } | null;
   human_review_status: "not_required" | "pending" | "approved" | "rejected";
   created_at: string;

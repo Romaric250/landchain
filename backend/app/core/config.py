@@ -62,7 +62,9 @@ class Settings(BaseSettings):
     LANDREGISTRY_CONTRACT_ADDRESS: str = ""
     DEPLOYER_PRIVATE_KEY: str = ""
 
-    # AI
+    # AI — prefer GEMINI_API_KEY (Google Gemini vision); AI_MODEL_ENDPOINT is a legacy custom service URL
+    GEMINI_API_KEY: str = ""
+    GEMINI_MODEL: str = "gemini-2.0-flash"
     AI_MODEL_ENDPOINT: str = ""
 
     # Cache / rate limiting
@@ -71,6 +73,9 @@ class Settings(BaseSettings):
     # Bootstrap super admin (created at startup if missing)
     SUPER_ADMIN_EMAIL: str = "admin@landchain.app"
     SUPER_ADMIN_PASSWORD: str = "ChangeMe123!"
+
+    # Demo data — seed 20 map parcels on startup when DB has none (set false in prod if undesired)
+    SEED_DEMO_DATA: bool = True
 
     @property
     def cors_origin_list(self) -> list[str]:

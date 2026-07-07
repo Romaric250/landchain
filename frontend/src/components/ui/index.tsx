@@ -1,6 +1,7 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 /* Design-system primitives — themed exclusively via semantic tokens (§9.2). */
 
@@ -65,6 +66,49 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     </div>
   );
 });
+
+type PasswordInputProps = Omit<InputProps, "type"> & {
+  showLabel?: string;
+  hideLabel?: string;
+};
+
+export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
+  function PasswordInput(
+    { label, hint, className = "", id, showLabel = "Show password", hideLabel = "Hide password", ...props },
+    ref,
+  ) {
+    const [visible, setVisible] = useState(false);
+    const inputId = id ?? props.name;
+    return (
+      <div className="flex flex-col gap-1.5 w-full">
+        {label && (
+          <label htmlFor={inputId} className="text-sm font-medium text-primary">
+            {label}
+          </label>
+        )}
+        <div className="relative">
+          <input
+            ref={ref}
+            id={inputId}
+            type={visible ? "text" : "password"}
+            className={`w-full rounded-xl border border-text/20 bg-surface py-2 pl-3 pr-10 text-sm text-text placeholder:text-text/40 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary ${className}`}
+            {...props}
+          />
+          <button
+            type="button"
+            tabIndex={-1}
+            aria-label={visible ? hideLabel : showLabel}
+            onClick={() => setVisible((v) => !v)}
+            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-text/50 hover:bg-primary/5 hover:text-text/80"
+          >
+            {visible ? <EyeOff className="h-4 w-4" strokeWidth={2} /> : <Eye className="h-4 w-4" strokeWidth={2} />}
+          </button>
+        </div>
+        {hint && <p className="text-xs text-text/60">{hint}</p>}
+      </div>
+    );
+  },
+);
 
 type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   label?: string;

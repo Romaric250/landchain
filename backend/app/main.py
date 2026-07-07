@@ -13,6 +13,7 @@ from app.core.database import close_db, connect_db, get_db
 from app.core.security import hash_password
 from app.models.common import utcnow
 from app.routers import admin, auth, disputes, documents, kyc, parcels, payments, waitlist
+from app.services.seed_demo import seed_demo_parcels
 from app.workers.subscription_check import run_all_jobs
 
 logging.basicConfig(
@@ -35,7 +36,7 @@ async def seed_super_admin() -> None:
             "phone": "",
             "password_hash": hash_password(settings.SUPER_ADMIN_PASSWORD),
             "role": "super_admin",
-            "locale": "en",
+            "locale": "fr",
             "status": "active",
             "kyc_status": "verified",
             "subscription": {"plan": None, "status": "none", "started_at": None, "expires_at": None, "last_payment_id": None},
@@ -50,6 +51,7 @@ async def seed_super_admin() -> None:
 async def lifespan(app: FastAPI):
     await connect_db()
     await seed_super_admin()
+    await seed_demo_parcels()
     scheduler = AsyncIOScheduler()
     scheduler.add_job(run_all_jobs, "interval", hours=1, id="subscription_check")
     scheduler.start()

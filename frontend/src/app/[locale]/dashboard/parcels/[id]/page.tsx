@@ -6,7 +6,9 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { api, errorMessage } from "@/lib/api-client";
 import type { Parcel } from "@/lib/types";
-import { Alert, Badge, Button, Card, Input, PageTitle, ParcelDetailSkeleton, Spinner, statusColor } from "@/components/ui";
+import { Alert, Badge, Button, Card, Input, Modal, PageTitle, ParcelDetailSkeleton, Spinner, Textarea, statusColor } from "@/components/ui";
+import { AiVerdictCard } from "@/components/ui/AiVerdictCard";
+import { parcelLngLat } from "@/components/map/ParcelMap";
 
 const ParcelMap = dynamic(() => import("@/components/map/ParcelMap"), { ssr: false });
 
@@ -26,13 +28,29 @@ export default function ParcelDetailPage({
 
   const [price, setPrice] = useState("");
   const [transfer, setTransfer] = useState({ to_owner_email: "", notary_email: "" });
+  const [disputeDesc, setDisputeDesc] = useState("");
   const [busy, setBusy] = useState(false);
+
+  const [listModal, setListModal] = useState(false);
+  const [transferModal, setTransferModal] = useState(false);
+  const [disputeModal, setDisputeModal] = useState(false);
 
   const load = useCallback(() => {
     api<Parcel>(`/parcels/${id}`).then(setParcel).catch((e) => setError(errorMessage(e)));
   }, [id]);
 
   useEffect(load, [load]);
+
+  const docsPendingAi = (parcel?.document_list ?? []).some((d) => !d.ai_verification_result);
+  useEffect(() => {
+    if (!docsPendingAi || !parcel) return;
+    const timer = window.setInterval(load, 4000);
+    const timeout = window.setTimeout(() => window.clearInterval(timer), 120000);
+    return () => {
+      window.clearInterval(timer);
+      window.clearTimeout(timeout);
+    };
+  }, [docsPendingAi, parcel, load]);
 
   async function listForSale(e: React.FormEvent) {
     e.preventDefault();
@@ -63,6 +81,24 @@ export default function ParcelDetailPage({
         },
       });
       setNotice(res.message);
+      setTransferModal(false);
+      load();
+    } catch (err) {
+      setError(errorMessage(err));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function raiseDispute(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setError("");
+    try {
+      await api("/disputes", { method: "POST", body: { parcel_id: id, description: disputeDesc } });
+      setNotice(td("raised"));
+      setDisputeModal(false);
+      setDisputeDesc("");
       load();
     } catch (err) {
       setError(errorMessage(err));
@@ -85,9 +121,7 @@ export default function ParcelDetailPage({
     );
   }
 
-  const geo = parcel.geojson;
-  const center: [number, number] | undefined =
-    geo?.type === "Point" ? [(geo.coordinates as number[])[0], (geo.coordinates as number[])[1]] : undefined;
+  const center = parcelLngLat(parcel) ?? undefined;
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -101,16 +135,16 @@ export default function ParcelDetailPage({
 
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="space-y-6">
-          {geo && (
+          {parcel.geojson && (
             <ParcelMap
               parcels={[parcel]}
               center={center}
               zoom={14}
+              showPolygons
               className="h-64 w-full rounded-xl border border-text/10"
             />
           )}
 
-          {/* Blockchain anchor */}
           <Card>
             <h2 className="text-sm font-semibold uppercase text-text/60">{t("blockchain")}</h2>
             <p className="mt-2 text-sm font-medium text-primary">
@@ -121,14 +155,8 @@ export default function ParcelDetailPage({
                 {t("recordHash")}: {parcel.record_hash}
               </p>
             )}
-            {parcel.blockchain_tx_hash && (
-              <p className="mt-1 break-all font-mono text-xs text-text/60">
-                tx: {parcel.blockchain_tx_hash}
-              </p>
-            )}
           </Card>
 
-          {/* History */}
           <Card>
             <h2 className="text-sm font-semibold uppercase text-text/60">{t("history")}</h2>
             <ul className="mt-3 space-y-3">
@@ -144,97 +172,142 @@ export default function ParcelDetailPage({
             </ul>
           </Card>
 
-          {/* Documents */}
           <Card>
             <h2 className="text-sm font-semibold uppercase text-text/60">{t("documents")}</h2>
-            <ul className="mt-3 space-y-3">
+            {docsPendingAi && (
+              <p className="mt-2 flex items-center gap-2 text-xs text-text/60">
+                <Spinner className="h-3 w-3" />
+                {t("aiAnalyzing")}
+              </p>
+            )}
+            <ul className="mt-3 space-y-4">
               {(parcel.document_list ?? []).map((doc) => (
-                <li key={doc.id} className="flex items-center justify-between text-sm">
-                  <div>
-                    <p className="font-medium text-primary">{tp(`docTypes.${doc.doc_type}` as Parameters<typeof tp>[0])}</p>
-                    {doc.ai_verification_result && (
-                      <p className="text-xs text-text/60">
-                        AI: {doc.ai_verification_result.verdict} (
-                        {Math.round(doc.ai_verification_result.score * 100)}%)
-                      </p>
-                    )}
-                  </div>
-                  {doc.ai_verification_result && (
-                    <Badge color={statusColor(doc.ai_verification_result.verdict)}>
-                      {doc.ai_verification_result.verdict}
-                    </Badge>
+                <li key={doc.id} className="rounded-lg border border-text/10 p-3">
+                  <p className="font-medium text-primary">
+                    {tp(`docTypes.${doc.doc_type}` as Parameters<typeof tp>[0])}
+                  </p>
+                  {doc.ai_verification_result ? (
+                    <div className="mt-2">
+                      <AiVerdictCard
+                        verdict={doc.ai_verification_result.verdict}
+                        score={doc.ai_verification_result.score}
+                        userMessage={doc.ai_verification_result.user_message}
+                        flaggedReasons={doc.ai_verification_result.flagged_reasons}
+                      />
+                    </div>
+                  ) : (
+                    <div className="mt-2">
+                      <AiVerdictCard analyzing />
+                    </div>
                   )}
                 </li>
               ))}
-              {(parcel.document_list ?? []).length === 0 && (
-                <li className="text-sm text-text/60">—</li>
-              )}
             </ul>
+            <p className="mt-3 text-xs text-text/50">{t("aiHumanNote")}</p>
           </Card>
         </div>
 
-        <div className="space-y-6">
-          {/* List for sale */}
+        <div className="space-y-4">
           <Card>
             <h2 className="text-sm font-semibold uppercase text-text/60">{t("listForSale")}</h2>
             {parcel.listing?.status === "active" ? (
-              <Alert tone="success">
+              <div className="mt-3">
+                <Alert tone="success">
                 {t("listedActive", {
                   date: parcel.listing.expires_at
                     ? new Date(parcel.listing.expires_at).toLocaleDateString()
                     : "—",
                 })}
-              </Alert>
+                </Alert>
+              </div>
             ) : (
-              <form onSubmit={listForSale} className="mt-3 space-y-3">
-                <Input
-                  type="number"
-                  min={1000}
-                  label={t("askingPrice")}
-                  required
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-                <Button type="submit" variant="secondary" disabled={busy || parcel.status !== "active"}>
-                  {busy ? <Spinner /> : t("listCta")}
-                </Button>
-              </form>
+              <Button
+                type="button"
+                variant="secondary"
+                className="mt-3 w-full"
+                disabled={parcel.status !== "active"}
+                onClick={() => setListModal(true)}
+              >
+                {t("listForSale")}
+              </Button>
             )}
           </Card>
 
-          {/* Transfer */}
           <Card>
             <h2 className="text-sm font-semibold uppercase text-text/60">{t("transfer")}</h2>
-            <form onSubmit={initiateTransfer} className="mt-3 space-y-3">
-              <Input
-                type="email"
-                label={t("recipientEmail")}
-                required
-                value={transfer.to_owner_email}
-                onChange={(e) => setTransfer({ ...transfer, to_owner_email: e.target.value })}
-              />
-              <Input
-                type="email"
-                label={t("notaryEmail")}
-                value={transfer.notary_email}
-                onChange={(e) => setTransfer({ ...transfer, notary_email: e.target.value })}
-              />
-              <Button type="submit" disabled={busy || parcel.status !== "active"}>
-                {busy ? <Spinner /> : t("transferCta")}
-              </Button>
-            </form>
+            <Button
+              type="button"
+              className="mt-3 w-full"
+              disabled={parcel.status !== "active"}
+              onClick={() => setTransferModal(true)}
+            >
+              {t("transferCta")}
+            </Button>
           </Card>
 
           <div className="flex flex-wrap gap-3">
             <Link href={`/dashboard/verify/${parcel.id}`}>
               <Button variant="outline">{t("fullReport")}</Button>
             </Link>
-            <Link href="/dashboard/disputes">
-              <Button variant="ghost">{td("raise")}</Button>
-            </Link>
+            <Button variant="ghost" onClick={() => setDisputeModal(true)}>
+              {td("raise")}
+            </Button>
           </div>
         </div>
       </div>
+
+      <Modal open={listModal} onClose={() => setListModal(false)} title={t("listForSaleModal")}>
+        <form onSubmit={listForSale} className="space-y-4">
+          <Input
+            type="number"
+            min={1000}
+            label={t("askingPrice")}
+            required
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+          <Button type="submit" variant="secondary" className="w-full" disabled={busy}>
+            {busy ? <Spinner /> : t("confirmList")}
+          </Button>
+        </form>
+      </Modal>
+
+      <Modal open={transferModal} onClose={() => setTransferModal(false)} title={t("transferModal")}>
+        <form onSubmit={initiateTransfer} className="space-y-4">
+          <Input
+            type="email"
+            label={t("recipientEmail")}
+            required
+            value={transfer.to_owner_email}
+            onChange={(e) => setTransfer({ ...transfer, to_owner_email: e.target.value })}
+          />
+          <Input
+            type="email"
+            label={t("notaryEmail")}
+            value={transfer.notary_email}
+            onChange={(e) => setTransfer({ ...transfer, notary_email: e.target.value })}
+          />
+          <Button type="submit" className="w-full" disabled={busy}>
+            {busy ? <Spinner /> : t("confirmTransfer")}
+          </Button>
+        </form>
+      </Modal>
+
+      <Modal open={disputeModal} onClose={() => setDisputeModal(false)} title={t("disputeModal")}>
+        <form onSubmit={raiseDispute} className="space-y-4">
+          <Textarea
+            label={t("disputeDescription")}
+            required
+            minLength={10}
+            rows={4}
+            value={disputeDesc}
+            onChange={(e) => setDisputeDesc(e.target.value)}
+          />
+          <Button type="submit" variant="danger" className="w-full" disabled={busy}>
+            {busy ? <Spinner /> : td("submit")}
+          </Button>
+        </form>
+      </Modal>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { api, errorMessage } from "@/lib/api-client";
-import { Alert, Button, Input, Spinner } from "@/components/ui";
+import { Alert, Button, Input, PasswordInput, Spinner } from "@/components/ui";
 
 export default function SignupPage() {
   const t = useTranslations("auth");
@@ -77,11 +77,12 @@ export default function SignupPage() {
           value={form.phone}
           onChange={(e) => setForm({ ...form, phone: e.target.value })}
         />
-        <Input
+        <PasswordInput
           name="password"
-          type="password"
           label={tc("password")}
           hint={t("passwordHint")}
+          showLabel={t("showPassword")}
+          hideLabel={t("hidePassword")}
           required
           minLength={8}
           value={form.password}

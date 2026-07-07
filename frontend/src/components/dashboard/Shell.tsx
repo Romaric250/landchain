@@ -32,6 +32,8 @@ export function AppShell({
   const tc = useTranslations("common");
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const isMapPage = pathname === "/dashboard/map";
+
   useEffect(() => {
     if (loading) return;
     if (!user) {
@@ -54,9 +56,9 @@ export function AppShell({
   const isAdmin = user.role === "admin" || user.role === "super_admin";
 
   return (
-    <div className="flex min-h-screen flex-col lg:flex-row">
+    <div className="flex h-screen flex-col overflow-hidden lg:flex-row">
       {/* Mobile top bar */}
-      <div className="flex items-center justify-between border-b border-text/10 bg-primary px-4 py-3 text-background lg:hidden">
+      <div className="flex shrink-0 items-center justify-between border-b border-text/10 bg-primary px-4 py-3 text-background lg:hidden">
         <LandChainLogo href="/dashboard" size={28} showName nameClassName="text-sm font-bold text-background" />
         <span className="text-xs opacity-70">{title}</span>
         <button
@@ -70,17 +72,17 @@ export function AppShell({
         </button>
       </div>
 
-      {/* Sidebar */}
+      {/* Sidebar — fixed, does not scroll with main content */}
       <aside
         className={`${
           menuOpen ? "block" : "hidden"
-        } w-full border-b border-text/10 bg-primary text-background lg:flex lg:min-h-screen lg:w-64 lg:flex-col lg:border-b-0`}
+        } shrink-0 border-b border-text/10 bg-primary text-background lg:flex lg:h-full lg:w-64 lg:flex-col lg:border-b-0 lg:border-r lg:border-background/10`}
       >
-        <div className="hidden items-center gap-2 px-6 py-5 lg:flex">
+        <div className="hidden shrink-0 items-center gap-2 px-6 py-5 lg:flex">
           <LandChainLogo href="/dashboard" size={32} showName nameClassName="text-lg font-bold text-background" />
           <div className="text-xs font-normal opacity-60">{title}</div>
         </div>
-        <nav className="flex flex-col gap-1 px-3 py-4 lg:flex-1" aria-label={title}>
+        <nav className="flex flex-col gap-1 overflow-y-auto px-3 py-4 lg:flex-1" aria-label={title}>
           {nav.map((item) => {
             const active =
               pathname === item.href ||
@@ -117,7 +119,7 @@ export function AppShell({
             </Link>
           )}
         </nav>
-        <div className="flex items-center justify-between gap-2 border-t border-background/20 px-4 py-4">
+        <div className="flex shrink-0 items-center justify-between gap-2 border-t border-background/20 px-4 py-4">
           <DropdownMenu
             align="right"
             className="min-w-0 flex-1"
@@ -144,11 +146,17 @@ export function AppShell({
               {tc("logout")}
             </DropdownItem>
           </DropdownMenu>
-          <LocaleSwitcher />
+          <LocaleSwitcher light />
         </div>
       </aside>
 
-      <main className="flex-1 bg-accent/10 px-4 py-6 sm:px-6 lg:px-10 lg:py-10">{children}</main>
+      <main
+        className={`min-h-0 flex-1 overflow-y-auto bg-accent/10 ${
+          isMapPage ? "p-0 lg:p-0" : "px-4 py-6 sm:px-6 lg:px-10 lg:py-10"
+        }`}
+      >
+        {children}
+      </main>
     </div>
   );
 }

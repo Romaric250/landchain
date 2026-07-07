@@ -23,6 +23,10 @@ router = APIRouter(prefix="/parcels", tags=["parcels"])
 PUBLIC_FIELDS = {"parcel_reference", "region", "status", "registration_date", "listing", "area_sqm"}
 
 
+# Fields visible on the public explore map (geometry included, no owner identity)
+MAP_PUBLIC_FIELDS = {"parcel_reference", "region", "status", "registration_date", "listing", "area_sqm", "geojson"}
+
+
 def _public_view(parcel: dict) -> dict:
     full = serialize(parcel)
     out = {k: v for k, v in full.items() if k in PUBLIC_FIELDS or k == "id"}
@@ -33,6 +37,43 @@ def _public_view(parcel: dict) -> dict:
     else:
         out["listing"] = {"is_for_sale": False, "status": listing.get("status", "none")}
     return out
+
+
+def _map_public_view(parcel: dict) -> dict:
+    """Public map view — shows parcel boundaries without owner details."""
+    full = serialize(parcel)
+    out = {k: v for k, v in full.items() if k in MAP_PUBLIC_FIELDS or k == "id"}
+    listing = out.get("listing") or {}
+    if listing.get("status") != "active" or not listing.get("is_for_sale"):
+        out["listing"] = {
+            "is_for_sale": bool(listing.get("is_for_sale")),
+            "status": listing.get("status", "none"),
+            "price_xaf": listing.get("price_xaf"),
+        }
+    return out
+
+
+@router.get("/map")
+async def map_parcels(
+    region: str | None = None,
+    status_filter: str | None = Query(None, alias="status"),
+    q: str | None = Query(None, description="parcel reference search"),
+    limit: int = Query(200, le=500),
+):
+    """Public explore map — returns parcel geometry and status for all registered parcels."""
+    db = get_db()
+    query: dict = {}
+    if region:
+        query["region"] = {"$regex": region, "$options": "i"}
+    if status_filter in ("active", "disputed", "flagged"):
+        query["status"] = status_filter
+    if q:
+        query["parcel_reference"] = {"$regex": q, "$options": "i"}
+
+    cursor = db.parcels.find(query).sort("created_at", -1).limit(limit)
+    items = [_map_public_view(p) async for p in cursor]
+    total = await db.parcels.count_documents(query)
+    return {"items": items, "total": total}
 
 
 def _is_owner_or_admin(parcel: dict, user: dict | None) -> bool:

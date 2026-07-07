@@ -5,16 +5,25 @@ import { useTranslations } from "next-intl";
 import { useAuth } from "@/lib/auth";
 import { api, errorMessage } from "@/lib/api-client";
 import { Alert, Badge, Button, Card, PageTitle, Spinner, statusColor } from "@/components/ui";
+import { AiVerdictCard } from "@/components/ui/AiVerdictCard";
 import { FileUpload } from "@/components/ui/FileUpload";
-import { AppShell } from "@/components/dashboard/Shell";
+
+interface KycSubmission {
+  status: string;
+  review_notes: string | null;
+  created_at: string;
+  ai_face_match_score: number | null;
+  ai_document_check: {
+    verdict: string;
+    score: number;
+    flagged_reasons: string[];
+    user_message?: string;
+  } | null;
+}
 
 interface KycStatus {
   kyc_status: string;
-  latest_submission: {
-    status: string;
-    review_notes: string | null;
-    created_at: string;
-  } | null;
+  latest_submission: KycSubmission | null;
 }
 
 function KycContent() {
@@ -28,10 +37,28 @@ function KycContent() {
   });
   const [state, setState] = useState<"idle" | "loading" | "done">("idle");
   const [error, setError] = useState("");
+  const [aiPolling, setAiPolling] = useState(false);
 
   useEffect(() => {
     api<KycStatus>("/kyc/status").then(setStatus).catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (!aiPolling) return;
+    const sub = status?.latest_submission;
+    if (sub?.ai_face_match_score != null && sub?.ai_document_check) {
+      setAiPolling(false);
+      return;
+    }
+    const timer = window.setInterval(() => {
+      api<KycStatus>("/kyc/status").then(setStatus).catch(() => {});
+    }, 3000);
+    const timeout = window.setTimeout(() => setAiPolling(false), 90000);
+    return () => {
+      window.clearInterval(timer);
+      window.clearTimeout(timeout);
+    };
+  }, [aiPolling, status?.latest_submission]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -47,6 +74,7 @@ function KycContent() {
         },
       });
       setState("done");
+      setAiPolling(true);
       await refreshUser();
       setStatus(await api<KycStatus>("/kyc/status"));
     } catch (err) {
@@ -58,6 +86,9 @@ function KycContent() {
   if (!user) return null;
   const kycStatus = status?.kyc_status ?? user.kyc_status;
   const canSubmit = kycStatus === "not_started" || kycStatus === "rejected";
+  const submission = status?.latest_submission;
+  const aiReady = submission?.ai_face_match_score != null && submission?.ai_document_check;
+  const showAiBlock = state === "done" || kycStatus === "pending" || kycStatus === "verified";
 
   return (
     <div className="mx-auto max-w-2xl">
@@ -70,9 +101,9 @@ function KycContent() {
         </Badge>
       </Card>
 
-      {kycStatus === "rejected" && status?.latest_submission?.review_notes && (
+      {kycStatus === "rejected" && submission?.review_notes && (
         <div className="mb-6">
-          <Alert tone="error">{status.latest_submission.review_notes}</Alert>
+          <Alert tone="error">{submission.review_notes}</Alert>
         </div>
       )}
 
@@ -80,6 +111,36 @@ function KycContent() {
         <div className="mb-6">
           <Alert tone="success">{t("submitted")}</Alert>
         </div>
+      )}
+
+      {showAiBlock && submission && (
+        <Card className="mb-6 space-y-4">
+          <h2 className="text-sm font-semibold uppercase text-text/60">{t("aiComplete")}</h2>
+          {!aiReady ? (
+            <AiVerdictCard analyzing />
+          ) : (
+            <>
+              <div>
+                <p className="mb-2 text-xs font-semibold uppercase text-text/50">{t("aiFaceMatch")}</p>
+                <AiVerdictCard
+                  score={submission.ai_face_match_score}
+                  verdict={submission.ai_face_match_score! >= 0.75 ? "authentic" : "suspicious"}
+                  compact
+                />
+              </div>
+              <div>
+                <p className="mb-2 text-xs font-semibold uppercase text-text/50">{t("aiDocCheck")}</p>
+                <AiVerdictCard
+                  verdict={submission.ai_document_check!.verdict as "authentic" | "suspicious" | "fraudulent"}
+                  score={submission.ai_document_check!.score}
+                  userMessage={submission.ai_document_check!.user_message}
+                  flaggedReasons={submission.ai_document_check!.flagged_reasons}
+                />
+              </div>
+            </>
+          )}
+          <p className="text-xs text-text/50">{t("aiHumanNote")}</p>
+        </Card>
       )}
 
       {canSubmit && state !== "done" && (
@@ -117,14 +178,5 @@ function KycContent() {
 }
 
 export default function KycPage() {
-  const t = useTranslations("dashboard.nav");
-  const nav = [
-    { href: "/dashboard", label: t("overview") },
-    { href: "/onboarding/kyc", label: t("kyc") },
-  ];
-  return (
-    <AppShell nav={nav} title="KYC">
-      <KycContent />
-    </AppShell>
-  );
+  return <KycContent />;
 }

@@ -9,7 +9,7 @@ Blockchain-powered land registration and verification API for Cameroon.
 - **Fapshi** payments (MTN MoMo / Orange Money) — mock checkout mode in dev
 - **Resend** transactional email (EN/FR) — logged to console in dev
 - **Polygon** anchoring via web3.py (optional; see `contracts/LandRegistry.sol`)
-- AI document verification pipeline (stub in dev, `AI_MODEL_ENDPOINT` in prod)
+- AI document verification pipeline (Google Gemini when `GEMINI_API_KEY` is set; legacy `AI_MODEL_ENDPOINT` or dev stub otherwise)
 - APScheduler worker: subscription/listing expiry + renewal reminder emails
 
 ## Local development (virtual env)
@@ -80,3 +80,7 @@ venv\Scripts\python.exe -m pytest app/tests -q
 ```
 
 venv/Scripts/python.exe -m uvicorn app.main:app --reload --port 8000
+
+
+0x2b30ac9ac9f7042cc2e87ba9ead6347562df37afa882670c2ebc6f37cc31ef7e
+https://amoy.polygonscan.com/address/0x84511386e7Fa36aBcbE1a1C8d3B5a3c2449C5b05

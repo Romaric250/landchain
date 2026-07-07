@@ -1,35 +1,100 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { api, ApiError, errorMessage } from "@/lib/api-client";
+import type { GeoJSONGeometry } from "@/lib/types";
 import { Alert, Button, Input, PageTitle, Select, Spinner } from "@/components/ui";
+import { AiVerdictCard } from "@/components/ui/AiVerdictCard";
 import { FileUpload } from "@/components/ui/FileUpload";
 
-const ParcelMap = dynamic(() => import("@/components/map/ParcelMap"), { ssr: false });
+const ParcelDrawMap = dynamic(() => import("@/components/map/ParcelDrawMap"), { ssr: false });
 
 const DOC_TYPES = ["land_title", "survey_plan", "sale_agreement", "tax_receipt", "other"] as const;
+
+interface DocAiResult {
+  verdict: string;
+  score: number;
+  flagged_reasons: string[];
+  user_message?: string;
+}
 
 interface DocEntry {
   file_url: string;
   doc_type: (typeof DOC_TYPES)[number];
+  doc_id?: string;
+  ai?: DocAiResult | null;
+  aiLoading?: boolean;
 }
 
 export default function NewParcelPage() {
   const t = useTranslations("parcels");
   const router = useRouter();
   const [form, setForm] = useState({ parcel_reference: "", region: "", area_sqm: "" });
-  const [picked, setPicked] = useState<[number, number] | null>(null);
+  const [boundary, setBoundary] = useState<GeoJSONGeometry | null>(null);
   const [docs, setDocs] = useState<DocEntry[]>([{ file_url: "", doc_type: "land_title" }]);
   const [state, setState] = useState<"idle" | "loading">("idle");
   const [error, setError] = useState<string>("");
   const [duplicate, setDuplicate] = useState<{ parcel_reference?: string; region?: string } | null>(null);
 
+  const pollDocAi = useCallback(async (docId: string, index: number) => {
+    for (let i = 0; i < 30; i++) {
+      await new Promise((r) => setTimeout(r, 2000));
+      try {
+        const doc = await api<{ ai_verification_result: DocAiResult | null }>(`/documents/${docId}`);
+        if (doc.ai_verification_result) {
+          setDocs((prev) => {
+            const next = [...prev];
+            if (next[index]) {
+              next[index] = { ...next[index], ai: doc.ai_verification_result, aiLoading: false };
+            }
+            return next;
+          });
+          return;
+        }
+      } catch {
+        break;
+      }
+    }
+    setDocs((prev) => {
+      const next = [...prev];
+      if (next[index]) next[index] = { ...next[index], aiLoading: false };
+      return next;
+    });
+  }, []);
+
+  async function uploadDoc(index: number, fileUrl: string, docType: DocEntry["doc_type"]) {
+    if (!fileUrl.trim()) return;
+    setDocs((prev) => {
+      const next = [...prev];
+      next[index] = { ...next[index], file_url: fileUrl, aiLoading: true, ai: null };
+      return next;
+    });
+    try {
+      const res = await api<{ id: string }>("/documents/upload", {
+        method: "POST",
+        body: { parcel_id: "pending", file_url: fileUrl, doc_type: docType },
+      });
+      setDocs((prev) => {
+        const next = [...prev];
+        next[index] = { ...next[index], doc_id: res.id, aiLoading: true };
+        return next;
+      });
+      pollDocAi(res.id, index);
+    } catch {
+      setDocs((prev) => {
+        const next = [...prev];
+        if (next[index]) next[index] = { ...next[index], aiLoading: false };
+        return next;
+      });
+    }
+  }
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!picked) {
+    if (!boundary || boundary.type !== "Polygon") {
       setError(t("mapHint"));
       return;
     }
@@ -37,14 +102,17 @@ export default function NewParcelPage() {
     setError("");
     setDuplicate(null);
     try {
-      // Upload documents first (URLs from UploadThing in production)
       const documentIds: string[] = [];
       for (const doc of docs.filter((d) => d.file_url.trim())) {
-        const res = await api<{ id: string }>("/documents/upload", {
-          method: "POST",
-          body: { parcel_id: "pending", file_url: doc.file_url, doc_type: doc.doc_type },
-        });
-        documentIds.push(res.id);
+        if (doc.doc_id) {
+          documentIds.push(doc.doc_id);
+        } else {
+          const res = await api<{ id: string }>("/documents/upload", {
+            method: "POST",
+            body: { parcel_id: "pending", file_url: doc.file_url, doc_type: doc.doc_type },
+          });
+          documentIds.push(res.id);
+        }
       }
 
       const parcel = await api<{ id: string }>("/parcels", {
@@ -53,7 +121,7 @@ export default function NewParcelPage() {
           parcel_reference: form.parcel_reference,
           region: form.region,
           area_sqm: Number(form.area_sqm),
-          geojson: { type: "Point", coordinates: [picked[0], picked[1]] },
+          geojson: boundary,
           document_ids: documentIds,
         },
       });
@@ -105,17 +173,7 @@ export default function NewParcelPage() {
 
         <div>
           <p className="mb-2 text-sm font-medium text-primary">{t("location")}</p>
-          <p className="mb-2 text-xs text-text/60">{t("mapHint")}</p>
-          <ParcelMap
-            onPick={(lng, lat) => setPicked([lng, lat])}
-            picked={picked}
-            className="h-80 w-full rounded-xl border border-text/10"
-          />
-          {picked && (
-            <p className="mt-2 font-mono text-xs text-text/60">
-              {picked[1].toFixed(6)}, {picked[0].toFixed(6)}
-            </p>
-          )}
+          <ParcelDrawMap value={boundary} onChange={setBoundary} className="h-96 w-full rounded-xl" />
         </div>
 
         <div>
@@ -147,8 +205,18 @@ export default function NewParcelPage() {
                     const next = [...docs];
                     next[i] = { ...doc, file_url: url };
                     setDocs(next);
+                    uploadDoc(i, url, doc.doc_type);
                   }}
                 />
+                {doc.aiLoading && <AiVerdictCard analyzing />}
+                {doc.ai && (
+                  <AiVerdictCard
+                    verdict={doc.ai.verdict as "authentic" | "suspicious" | "fraudulent"}
+                    score={doc.ai.score}
+                    userMessage={doc.ai.user_message}
+                    flaggedReasons={doc.ai.flagged_reasons}
+                  />
+                )}
               </div>
             ))}
           </div>

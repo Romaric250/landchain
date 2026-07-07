@@ -8,11 +8,13 @@ export function Modal({
   onClose,
   title,
   children,
+  wide = false,
 }: {
   open: boolean;
   onClose: () => void;
   title: string;
   children: React.ReactNode;
+  wide?: boolean;
 }) {
   useEffect(() => {
     if (!open) return;
@@ -41,7 +43,9 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        className="relative z-10 w-full max-w-md rounded-2xl border border-primary/10 bg-surface p-6 shadow-2xl shadow-primary/15"
+        className={`relative z-10 w-full rounded-2xl border border-primary/10 bg-surface p-6 shadow-2xl shadow-primary/15 ${
+          wide ? "max-w-lg" : "max-w-md"
+        }`}
       >
         <div className="mb-4 flex items-start justify-between gap-3">
           <h2 id="modal-title" className="text-lg font-bold text-primary">

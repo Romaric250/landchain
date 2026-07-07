@@ -53,5 +53,5 @@ whole product is testable locally with zero external accounts:
 - **Polygon** → record hashes computed/stored; on-chain anchoring backfills later
 - **AI pipeline** → deterministic stub verdicts feeding the admin review queues
 
-See `backend/README.md` for full backend documentation and
+See `backend/README.md` for full backend documentation, **`backend/DEPLOY.md`** for Contabo production deploy, and
 `backend/contracts/LandRegistry.sol` for the smart contract.

@@ -6,10 +6,13 @@ import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { ChevronDown, Globe, LayoutDashboard, LogOut } from "lucide-react";
 import { LandChainLogo } from "./LandChainLogo";
 import { useAuth } from "@/lib/auth";
+import { persistLocaleChoice } from "@/components/LocalePersistence";
+import { DemoModal } from "./DemoModal";
 import { DropdownItem, DropdownMenu } from "@/components/ui/DropdownMenu";
 
 const NAV_ITEMS = [
   { href: "/how-it-works", key: "howItWorks" },
+  { href: "/map", key: "map" },
   { href: "/marketplace", key: "marketplace" },
   { href: "/team", key: "team" },
   { href: "/about", key: "about" },
@@ -43,7 +46,10 @@ export function LocaleSwitcher({ light = false }: { light?: boolean }) {
         <DropdownItem
           key={l}
           onClick={() => {
-            if (locale !== l) router.replace(pathname, { locale: l });
+            if (locale !== l) {
+              persistLocaleChoice(l);
+              router.replace(pathname, { locale: l });
+            }
           }}
           className={locale === l ? "font-semibold text-primary" : ""}
         >
@@ -74,6 +80,7 @@ export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [demoOpen, setDemoOpen] = useState(false);
 
   const isHome = pathname === "/";
 
@@ -123,6 +130,17 @@ export function Header() {
 
         <div className="hidden items-center gap-3 lg:flex">
           <LocaleSwitcher light={light} />
+          <button
+            type="button"
+            onClick={() => setDemoOpen(true)}
+            className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors cursor-pointer ${
+              light
+                ? "border border-white/40 text-white hover:bg-white/10"
+                : "border border-primary/25 text-primary hover:bg-primary/5"
+            }`}
+          >
+            {t("demo")}
+          </button>
           <Link
             href="/verify"
             className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
@@ -213,6 +231,13 @@ export function Header() {
                 {t(item.key)}
               </Link>
             ))}
+            <button
+              type="button"
+              onClick={() => { setDemoOpen(true); setOpen(false); }}
+              className="rounded-lg px-3 py-2.5 text-left text-sm font-medium text-text hover:bg-accent/40 w-full cursor-pointer"
+            >
+              {t("demo")}
+            </button>
             <Link
               href="/verify"
               className="rounded-lg px-3 py-2.5 text-sm font-medium text-text hover:bg-accent/40"
@@ -265,6 +290,7 @@ export function Header() {
           </div>
         </nav>
       )}
+      <DemoModal open={demoOpen} onClose={() => setDemoOpen(false)} />
     </header>
   );
 }

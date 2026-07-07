@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { AppShell } from "@/components/dashboard/Shell";
 
-export default function DashboardLayout({
+export default function OnboardingLayout({
   children,
 }: {
   children: React.ReactNode;
