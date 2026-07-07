@@ -128,7 +128,7 @@ async def resend_verification(body: ResendVerificationRequest, background: Backg
         raise HTTPException(status_code=400, detail="Account cannot be verified at this time")
 
     user_id = str(user["_id"])
-    locale = user.get("locale", "fr")
+    locale = user.get("locale", "en")
     token = create_email_verify_token(user_id)
     link = f"{settings.FRONTEND_URL}/{locale}/verify-email?token={token}"
     background.add_task(send_email, user["email"], "verify_email", locale, link=link)
@@ -205,7 +205,7 @@ async def forgot_password(body: ForgotPasswordRequest, background: BackgroundTas
     user = await db.users.find_one({"email": body.email.lower()})
     if user:
         token = create_password_reset_token(str(user["_id"]))
-        locale = user.get("locale", "fr")
+        locale = user.get("locale", "en")
         link = f"{settings.FRONTEND_URL}/{locale}/reset-password?token={token}"
         background.add_task(send_email, user["email"], "password_reset", locale, link=link)
     # Same response either way — don't leak account existence

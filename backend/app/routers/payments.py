@@ -44,7 +44,7 @@ async def plans():
 async def subscribe(body: SubscribeRequest, user: Annotated[dict, Depends(get_current_user)]):
     db = get_db()
     amount = plan_price(body.plan)
-    redirect = f"{settings.FRONTEND_URL}/{user.get('locale', 'fr')}/dashboard/subscription?status=return"
+    redirect = f"{settings.FRONTEND_URL}/{user.get('locale', 'en')}/dashboard/subscription?status=return"
     try:
         pay = await fapshi.initiate_pay(
             amount=amount,
@@ -90,7 +90,7 @@ async def initiate_listing_payment(parcel_id: str, price_xaf: int, user: dict) -
         raise HTTPException(status_code=409, detail="Parcel already has an active listing")
 
     amount = settings.PRICE_LISTING_FEE
-    redirect = f"{settings.FRONTEND_URL}/{user.get('locale', 'fr')}/dashboard/parcels/{parcel_id}?status=return"
+    redirect = f"{settings.FRONTEND_URL}/{user.get('locale', 'en')}/dashboard/parcels/{parcel_id}?status=return"
     try:
         pay = await fapshi.initiate_pay(
             amount=amount,

@@ -22,6 +22,11 @@
     "name": "Nom complet",
     "phone": "Numéro de téléphone",
     "xaf": "XAF",
+    "bootLoader": {
+      "anchoring": "Ancrage des registres sur la blockchain…",
+      "verifying": "Chargement de la couche de vérification…",
+      "securing": "Préparation de la session sécurisée…"
+    },
     "status": {
       "active": "Enregistrée",
       "disputed": "En litige",
@@ -207,6 +212,9 @@
     "tech": {
       "title": "La technologie, en termes simples",
       "subtitle": "Une infrastructure sérieuse derrière une expérience simple — aucune connaissance blockchain requise.",
+      "blockchainTitle": "Blockchain",
+      "aiTitle": "IA documentaire",
+      "privacyTitle": "Confidentialité",
       "blockchain": "Imaginez la blockchain comme un cahier public que personne ne peut modifier en secret. Quand votre parcelle est enregistrée, une empreinte du dossier y est inscrite pour toujours. Si quelqu'un altère le dossier plus tard, l'empreinte ne correspond plus — et tout le monde peut le voir.",
       "ai": "Notre IA examine les documents comme le ferait un expert : cachets, polices, signatures et traces invisibles laissées par les faux générés par IA. Tout élément suspect est transmis à un examinateur humain : aucune machine ne rejette jamais vos documents seule.",
       "privacy": "Vos données personnelles et documents ne vont jamais sur la blockchain. Seules des empreintes anonymes (hachages) y sont stockées."

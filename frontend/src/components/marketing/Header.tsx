@@ -19,7 +19,7 @@ const NAV_ITEMS = [
   { href: "/pricing", key: "pricing" },
 ] as const;
 
-const LOCALES = ["fr", "en"] as const;
+const LOCALES = ["en", "fr"] as const;
 
 export function LocaleSwitcher({ light = false }: { light?: boolean }) {
   const locale = useLocale();

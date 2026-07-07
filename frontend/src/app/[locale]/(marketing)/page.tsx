@@ -41,7 +41,7 @@ export default async function HomePage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("home");
+  const t = await getTranslations({ locale, namespace: "home" });
 
   const trustItems = t.raw("trustStrip") as string[];
   const problemItems = t.raw("problem.items") as { title: string; text: string }[];

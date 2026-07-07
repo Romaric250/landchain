@@ -118,12 +118,43 @@ body {
   transform: translateY(0);
 }
 
+@keyframes lc-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes lc-loader-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-loader-spin-slow {
+  animation: lc-loader-spin 4s linear infinite;
+}
+
+.animate-loader-pulse {
+  animation: lc-loader-pulse 1.6s ease-in-out infinite;
+}
+
+.animate-loader-pulse-delay {
+  animation: lc-loader-pulse 1.6s ease-in-out 0.4s infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal,
   .animate-kenburns,
   .animate-fade-up,
   .animate-fade-in,
-  .animate-float {
+  .animate-float,
+  .animate-loader-spin-slow,
+  .animate-loader-pulse,
+  .animate-loader-pulse-delay {
     animation: none !important;
     transition: none !important;
     opacity: 1 !important;

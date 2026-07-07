@@ -22,6 +22,11 @@
     "name": "Full name",
     "phone": "Phone number",
     "xaf": "XAF",
+    "bootLoader": {
+      "anchoring": "Anchoring records on-chain…",
+      "verifying": "Loading verification layer…",
+      "securing": "Preparing secure session…"
+    },
     "status": {
       "active": "Registered",
       "disputed": "Disputed",
@@ -207,6 +212,9 @@
     "tech": {
       "title": "The technology, in plain words",
       "subtitle": "Serious infrastructure behind a simple experience — no blockchain knowledge required.",
+      "blockchainTitle": "Blockchain",
+      "aiTitle": "Document AI",
+      "privacyTitle": "Privacy",
       "blockchain": "Think of the blockchain as a public notebook that nobody can secretly edit. When your parcel is registered, a fingerprint of the record is written into that notebook forever. If anyone tampers with the record later, the fingerprint no longer matches — and everyone can see it.",
       "ai": "Our AI examines documents the way a trained expert would — checking stamps, fonts, signatures and the invisible traces that AI-generated forgeries leave behind. Anything suspicious goes to a human reviewer: no machine ever rejects your documents on its own.",
       "privacy": "Your personal data and documents never go on the blockchain. Only anonymous fingerprints (hashes) are stored on-chain."

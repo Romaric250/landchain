@@ -36,7 +36,7 @@ async def seed_super_admin() -> None:
             "phone": "",
             "password_hash": hash_password(settings.SUPER_ADMIN_PASSWORD),
             "role": "super_admin",
-            "locale": "fr",
+            "locale": "en",
             "status": "active",
             "kyc_status": "verified",
             "subscription": {"plan": None, "status": "none", "started_at": None, "expires_at": None, "last_payment_id": None},

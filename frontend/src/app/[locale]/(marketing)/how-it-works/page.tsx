@@ -14,9 +14,9 @@ import { Reveal } from "@/components/ui/Reveal";
 
 const STEP_ICONS = [ClipboardList, ShieldCheck, GitBranch, ArrowRightLeft];
 const TECH_META = [
-  { key: "blockchain" as const, icon: Link2, title: "Blockchain" },
-  { key: "ai" as const, icon: FileSearch, title: "Document AI" },
-  { key: "privacy" as const, icon: Lock, title: "Privacy" },
+  { key: "blockchain" as const, icon: Link2 },
+  { key: "ai" as const, icon: FileSearch },
+  { key: "privacy" as const, icon: Lock },
 ];
 
 export default async function HowItWorksPage({
@@ -26,8 +26,8 @@ export default async function HowItWorksPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("howItWorksPage");
-  const th = await getTranslations("home.howItWorks");
+  const t = await getTranslations({ locale, namespace: "howItWorksPage" });
+  const th = await getTranslations({ locale, namespace: "home.howItWorks" });
   const steps = th.raw("steps") as { title: string; text: string }[];
 
   return (
@@ -127,13 +127,13 @@ export default async function HowItWorksPage({
             <p className="mt-3 max-w-2xl text-white/70">{t("tech.subtitle")}</p>
           </Reveal>
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {TECH_META.map(({ key, icon: Icon, title }, i) => (
+            {TECH_META.map(({ key, icon: Icon }, i) => (
               <Reveal key={key} delay={i * 120}>
                 <div className="h-full rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur transition-all hover:border-secondary/50 hover:bg-white/10">
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-secondary/25 text-accent">
                     <Icon className="h-6 w-6" strokeWidth={1.8} />
                   </div>
-                  <h3 className="mt-5 text-lg font-bold">{title}</h3>
+                  <h3 className="mt-5 text-lg font-bold">{t(`tech.${key}Title`)}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-white/70">
                     {t(`tech.${key}`)}
                   </p>
