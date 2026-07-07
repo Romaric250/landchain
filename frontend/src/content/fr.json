@@ -528,16 +528,8 @@
     }
   },
   "demo": {
-    "title": "LandChain en 60 secondes",
-    "subtitle": "Découvrez comment la blockchain et l'IA protègent les acheteurs de terrains au Cameroun.",
-    "steps": [
-      { "title": "Explorez la carte", "text": "Parcourez les parcelles enregistrées — à vendre, en litige et vérifiées." },
-      { "title": "L'IA vérifie les documents", "text": "Téléversez un titre ou une pièce d'identité — Gemini détecte les falsifications." },
-      { "title": "Ancrage blockchain", "text": "Chaque dossier vérifié est haché et ancré sur Polygon." },
-      { "title": "Vérifiez avant de payer", "text": "Consultation gratuite ou rapport complet avant toute transaction." }
-    ],
-    "ctaMap": "Ouvrir la carte",
-    "ctaVerify": "Essayer la vérification"
+    "title": "Démo LandChain",
+    "videoFallback": "Votre navigateur ne prend pas en charge la lecture vidéo."
   },
   "adminPanel": {
     "title": "Admin",

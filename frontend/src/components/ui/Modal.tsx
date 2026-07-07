@@ -10,12 +10,14 @@ export function Modal({
   title,
   children,
   wide = false,
+  video = false,
 }: {
   open: boolean;
   onClose: () => void;
   title: string;
   children: React.ReactNode;
   wide?: boolean;
+  video?: boolean;
 }) {
   const [mounted, setMounted] = useState(false);
 
@@ -52,7 +54,7 @@ export function Modal({
         aria-modal="true"
         aria-labelledby="modal-title"
         className={`relative z-10 flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-2xl border border-primary/10 bg-surface shadow-2xl shadow-primary/20 sm:max-h-[85dvh] sm:rounded-2xl ${
-          wide ? "sm:max-w-xl" : "sm:max-w-md"
+          video ? "sm:max-w-4xl" : wide ? "sm:max-w-xl" : "sm:max-w-md"
         }`}
       >
         <div className="flex shrink-0 items-start justify-between gap-3 border-b border-text/10 px-5 py-4 sm:px-6">
@@ -68,7 +70,7 @@ export function Modal({
             <X className="h-5 w-5" strokeWidth={2} />
           </button>
         </div>
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-4 sm:px-6 sm:py-5">
+        <div className={`min-h-0 flex-1 overflow-y-auto overscroll-contain ${video ? "p-0" : "px-5 py-4 sm:px-6 sm:py-5"}`}>
           {children}
         </div>
       </div>
